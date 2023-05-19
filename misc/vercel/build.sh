@@ -16,7 +16,9 @@ set -eu -o pipefail
 
 # vite
 npx vite build
-npx esbuild ./src/server/entry-vercel.ts --bundle --sourcemap --outfile=./dist/entry-vercel.js --platform=node --sourcemap=inline
+
+# TODO: strip node_modules sourcemap like in https://github.com/hi-ogawa/ytsub-v3/blob/6cf85898685ddf0991463eed4ec2ed7d9687c683/misc/build/bundle-vercel.ts
+npx esbuild ./src/server/entry-vercel.ts --bundle --sourcemap --outfile=./dist/entry-vercel.js --platform=node
 
 # clean
 rm -rf .vercel/output
