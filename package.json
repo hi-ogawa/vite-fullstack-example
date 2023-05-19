@@ -22,7 +22,9 @@
     "@hattip/adapter-node": "^0.0.34",
     "@hattip/compose": "^0.0.34",
     "@hiogawa/isort-ts": "1.0.2-pre.1",
+    "@hiogawa/unocss-preset-antd": "2.2.1-pre.2",
     "@hiogawa/utils": "1.4.2-pre.9",
+    "@hiogawa/utils-experimental": "^0.0.1",
     "@hiogawa/utils-react": "1.2.1-pre.4",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-query-devtools": "^4.29.7",
@@ -45,6 +47,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "typescript": "^5.0.4",
+    "unocss": "^0.51.13",
     "vite": "^4.3.8",
     "vite-plugin-ssr": "^0.4.125",
     "zod": "^3.21.4"

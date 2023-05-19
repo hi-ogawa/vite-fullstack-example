@@ -5,6 +5,7 @@
 - rendering
   - react
   - vite-plugin-ssr
+  - unocss (css)
 - api
   - trpc
   - react-query
