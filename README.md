@@ -9,11 +9,12 @@
   - trpc
   - react-query
 - database
-  - query builder: drizzle
-  - schema migration: prisma
+  - postgres
+  - drizzle (query builder)
+  - prisma (schema migration)
 - testing
-  - unit: vitest
-  - e2e: playwright
+  - vitest (unit)
+  - playwright (e2e)
 - deployment
   - vercel cdn/serverless
 
@@ -21,8 +22,5 @@
 
 ```sh
 pnpm i
-make db/reset
 pnpm dev
-pnpm test
-pnpm test-e2e
 ```
