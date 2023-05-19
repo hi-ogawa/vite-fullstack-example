@@ -13,7 +13,6 @@ jobs:
         with:
           node-version: 18
           cache: pnpm
-      - run: make lint
       - run: pnpm i
       - run: pnpm lint-check
       - run: pnpm tsc
