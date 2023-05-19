@@ -1,0 +1,11 @@
+name: health-check
+"on":
+  workflow_dispatch:
+  schedule:
+    # every hour
+    - cron: "0 * * * *"
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -sSfL https://vite-fullstack-hiro18181.vercel.app/_trpc/_healthz | jq --exit-status
