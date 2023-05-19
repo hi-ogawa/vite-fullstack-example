@@ -8,4 +8,4 @@ jobs:
   health-check:
     runs-on: ubuntu-latest
     steps:
-      - run: curl -sSfL https://ytsub-v3-hiro18181.vercel.app/_trpc/health-check | jq --exit-status
+      - run: curl -sSfL https://vite-fullstack-hiro18181.vercel.app/_trpc/_healthz | jq --exit-status
