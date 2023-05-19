@@ -8,10 +8,10 @@
     "checkJs": false,
     "noEmit": true,
     "moduleResolution": "Node",
-    "module": "CommonJS",
+    "module": "ESNext",
     "target": "ES2021",
     "lib": ["ES2021", "DOM"],
-    "types": [],
+    "types": ["vite/client"],
     "jsx": "react-jsx"
   }
 }

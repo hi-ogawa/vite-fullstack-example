@@ -1,1 +1,1 @@
-export const TRPC_ENDPOINT = "/trpc";
+export const TRPC_ENDPOINT = "/_trpc";

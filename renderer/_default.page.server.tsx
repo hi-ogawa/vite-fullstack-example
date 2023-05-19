@@ -1,6 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { dangerouslySkipEscape, escapeInject } from "vite-plugin-ssr/server";
-import { PAGE_DOM_ID } from "./common";
+import { PAGE_DOM_ID, PageWrapper } from "./common";
 
 // PageContext api is customizable for own need
 // cf.
@@ -21,7 +21,12 @@ export const passToClient = ["pageProps"];
 
 export const render: RenderServer = (ctx) => {
   // TODO: streaming
-  const pageString = renderToString(<ctx.Page {...ctx.pageProps} />);
+  const page = (
+    <PageWrapper>
+      <ctx.Page {...ctx.pageProps} />
+    </PageWrapper>
+  );
+  const pageString = renderToString(page);
   const documentHtml = wrapDocumentHtml(pageString);
 
   return {
