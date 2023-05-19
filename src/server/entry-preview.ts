@@ -2,6 +2,10 @@ import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
 import { hattipApp } from "./hattip";
 
+// test production build locally with express
+//   pnpm preview-build
+//   pnpm preview
+
 async function main() {
   const app = express();
 
