@@ -2,7 +2,10 @@
   "name": "@hiogawa/vite-fullstack-example",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:vite": "vite",
+    "dev:app": "pnpm app-build && run-p app-build-watch app-nodemon",
+    "app-build": "npx esbuild ./src/server/entry-dev.ts --bundle --external:vite --external:vite-plugin-ssr --sourcemap --outfile=./dist/dev.js --platform=node",
+    "app-build-watch": "pnpm app-build --watch",
+    "app-nodemon": "npx nodemon ./dist/dev.js --watch ./dist/dev.js",
     "tsc": "tsc -b",
     "dev:tsc": "tsc -b --watch --preserveWatchOutput",
     "lint": "run-s lint:*",
