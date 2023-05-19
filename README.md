@@ -20,9 +20,15 @@
 ## usage
 
 ```sh
+# development
 pnpm i
 make db/reset
 pnpm dev
 pnpm test
 pnpm test-e2e
+
+# release
+pnpm build
+pnpm release
+pnpm release-production
 ```
