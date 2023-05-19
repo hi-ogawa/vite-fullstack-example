@@ -1,0 +1,17 @@
+{
+  "extends": "@tsconfig/strictest/tsconfig.json",
+  "include": ["src", "pages", "renderer"],
+  "compilerOptions": {
+    "noPropertyAccessFromIndexSignature": false,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false,
+    "checkJs": false,
+    "noEmit": true,
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
+    "types": [],
+    "jsx": "react-jsx"
+  }
+}
