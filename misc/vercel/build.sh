@@ -16,7 +16,7 @@ set -eu -o pipefail
 
 # vite
 npx vite build
-npx esbuild ./src/server/entry-vercel.ts --bundle --sourcemap --outfile=./dist/entry-vercel.js --platform=node
+npx esbuild ./src/server/entry-vercel.ts --bundle --sourcemap --outfile=./dist/entry-vercel.js --platform=node --sourcemap=inline
 
 # clean
 rm -rf .vercel/output
