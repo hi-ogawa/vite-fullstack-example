@@ -1,4 +1,4 @@
-# vite-fullstack-example (wip)
+# vite-fullstack-example
 
 ## tools
 
@@ -8,11 +8,11 @@
 - api
   - trpc
   - react-query
-- database
+- TODO: database
   - postgres
   - drizzle (query builder)
   - prisma (schema migration)
-- testing
+- TODO: testing
   - vitest (unit)
   - playwright (e2e)
 - deployment
