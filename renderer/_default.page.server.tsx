@@ -1,3 +1,4 @@
+import THEME_SCRIPT from "@hiogawa/utils-experimental/dist/theme-script.global.js?raw";
 import { renderToString } from "react-dom/server";
 import { dangerouslySkipEscape, escapeInject } from "vite-plugin-ssr/server";
 import { PAGE_DOM_ID, PageWrapper } from "./common";
@@ -45,6 +46,11 @@ function wrapDocumentHtml(pageMarkup: string) {
           content="width=device-width, height=device-height, initial-scale=1.0"
         />
         <title>Test</title>
+        <script>
+          globalThis.__themeStorageKey = "vite-fullstack:theme";
+          globalThis.__themeDefault = "dark";
+          ${dangerouslySkipEscape(THEME_SCRIPT)}
+        </script>
       </head>
       <body>
         <div id="${PAGE_DOM_ID}">${dangerouslySkipEscape(pageMarkup)}</div>

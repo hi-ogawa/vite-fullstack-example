@@ -22,6 +22,9 @@ devDependencies:
   '@hiogawa/utils-react':
     specifier: 1.2.1-pre.4
     version: 1.2.1-pre.4(react@18.2.0)
+  '@iconify-json/ri':
+    specifier: ^1.1.9
+    version: 1.1.9
   '@tanstack/react-query':
     specifier: ^4.29.7
     version: 4.29.7(react-dom@18.2.0)(react@18.2.0)
@@ -622,6 +625,12 @@ packages:
 
   /@hiogawa/utils@1.4.2-pre.9:
     resolution: {integrity: sha512-XT5XROUx3NL9Al4nEt2VZEIY4dDrxT3vVjQWy0kpu0vnSn81JuDfM7TiX5Sbo6oiAtQkjX9XbTfns8VKDtB0Mg==}
+    dev: true
+
+  /@iconify-json/ri@1.1.9:
+    resolution: {integrity: sha512-YOSBce/bzkORxBI1mYz4b9vidaJDeorwzuddFoIV9ajazncI55VLtQ+puIra0d3HQhYfswNSwRy8PrHTZmvaOg==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify/types@2.0.0:
