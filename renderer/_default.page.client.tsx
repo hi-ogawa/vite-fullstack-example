@@ -1,7 +1,7 @@
 import { tinyassert } from "@hiogawa/utils";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { PAGE_DOM_ID } from "./common";
+import { PAGE_DOM_ID, PageWrapper } from "./common";
 
 // TODO: when is it different from PageContextServer?
 // import { PageContextBuiltIn } from "vite-plugin-ssr/types";
@@ -19,9 +19,12 @@ export const render: RenderClient = (ctx) => {
   // TODO: client navigation
 
   const root = createRoot(pageEl);
-  root.render(
+  const page = (
     <React.StrictMode>
-      <ctx.Page {...ctx.pageProps} />
+      <PageWrapper>
+        <ctx.Page {...ctx.pageProps} />
+      </PageWrapper>
     </React.StrictMode>
   );
+  root.render(page);
 };

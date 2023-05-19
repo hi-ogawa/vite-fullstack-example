@@ -2,7 +2,10 @@
   "name": "@hiogawa/vite-fullstack-example",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:vite": "vite",
+    "dev:app": "pnpm app-build && run-p app-build-watch app-nodemon",
+    "app-build": "npx esbuild ./src/server/entry-dev.ts --bundle --external:vite --external:vite-plugin-ssr --sourcemap --outfile=./dist/dev.js --platform=node",
+    "app-build-watch": "pnpm app-build --watch",
+    "app-nodemon": "npx nodemon ./dist/dev.js --watch ./dist/dev.js",
     "tsc": "tsc -b",
     "dev:tsc": "tsc -b --watch --preserveWatchOutput",
     "lint": "run-s lint:*",
@@ -17,6 +20,11 @@
     "@hattip/compose": "^0.0.34",
     "@hiogawa/isort-ts": "1.0.2-pre.1",
     "@hiogawa/utils": "1.4.2-pre.9",
+    "@hiogawa/utils-react": "1.2.1-pre.4",
+    "@tanstack/react-query": "^4.29.7",
+    "@tanstack/react-query-devtools": "^4.29.7",
+    "@trpc/client": "^10.26.0",
+    "@trpc/server": "^10.26.0",
     "@tsconfig/strictest": "^2.0.1",
     "@types/express": "^4.17.17",
     "@types/node": "^18.16.13",
@@ -32,9 +40,11 @@
     "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
     "typescript": "^5.0.4",
     "vite": "^4.3.8",
-    "vite-plugin-ssr": "^0.4.125"
+    "vite-plugin-ssr": "^0.4.125",
+    "zod": "^3.21.4"
   },
   "volta": {
     "node": "18.16.0"
