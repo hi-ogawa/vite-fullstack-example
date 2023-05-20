@@ -8,12 +8,8 @@
       }
     },
     {
-      "handle": "filesystem"
-    },
-    {
       "src": "^/(.*)$",
-      "dest": "/",
-      "check": true
+      "dest": "/"
     }
   ]
 }
