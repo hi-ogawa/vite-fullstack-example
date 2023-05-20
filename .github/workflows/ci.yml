@@ -18,7 +18,7 @@ jobs:
       - run: pnpm tsc
       - run: pnpm build
 
-  test-e2e:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,4 +38,5 @@ jobs:
       - if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install chromium --with-deps
       - run: make docker/up
+      - run: pnpm test
       - run: pnpm test-e2e

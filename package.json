@@ -15,7 +15,9 @@
     "release-production": "vercel deploy --prebuilt . --prod",
     "tsc": "tsc -b",
     "dev:tsc": "tsc -b --watch --preserveWatchOutput",
-    "test-e2e": "make test/setup && playwright test",
+    "test": "pnpm env-test vitest",
+    "test-e2e": "pnpm env-test playwright test",
+    "env-test": "bash misc/dot-env.sh .env.test",
     "lint": "run-s lint:*",
     "lint-check": "run-s lint-check:*",
     "lint:isort": "pnpm lint-check:isort --fix",
@@ -61,6 +63,7 @@
     "unocss": "^0.51.13",
     "vite": "^4.3.8",
     "vite-plugin-ssr": "^0.4.125",
+    "vitest": "^0.31.1",
     "zod": "^3.21.4"
   },
   "volta": {

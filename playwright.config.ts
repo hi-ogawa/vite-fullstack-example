@@ -22,11 +22,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "bash misc/dot-env.sh .env.test pnpm dev >> dev-e2e.log 2>&1",
-    env: {
-      PORT: String(PORT),
-      STRICT_PORT: "true",
-    },
+    command: `PORT=${PORT} STRICT_PORT=1 pnpm dev >> dev-e2e.log 2>&1`,
     port: PORT,
     reuseExistingServer: true,
   },
