@@ -2,9 +2,14 @@ import React from "react";
 
 export function Root(props: React.PropsWithChildren) {
   return (
-    <div className="relative z-0">
-      <header className="flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7] relative z-1">
+    <div>
+      <header className="flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">
         <span className="text-lg">Example</span>
+        <div className="border-l self-stretch"></div>
+        <div className="flex gap-2">
+          Pages :
+          <PageLinkList />
+        </div>
         <span className="flex-1"></span>
         <ThemeSelect />
         <a
@@ -13,7 +18,7 @@ export function Root(props: React.PropsWithChildren) {
           target="_blank"
         ></a>
       </header>
-      <main>{props.children}</main>
+      <main className="flex flex-col items-center p-4">{props.children}</main>
     </div>
   );
 }
@@ -35,3 +40,19 @@ function ThemeSelect() {
     ></button>
   );
 }
+
+function PageLinkList() {
+  return (
+    <ul className="flex items-center gap-3">
+      {LINKS.map((href) => (
+        <li key={href}>
+          <a className="antd-btn antd-btn-default p-0.5 px-2" href={href}>
+            {href}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const LINKS = ["/", "/other", "/trpc"];
