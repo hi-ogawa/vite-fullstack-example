@@ -1,4 +1,9 @@
 import { type Page, test } from "@playwright/test";
+import { execPromise } from "../src/utils/node-utils";
+
+test.beforeAll(async () => {
+  await execPromise("make test/setup");
+});
 
 test("basic", async ({ page }) => {
   await page.goto("/");
