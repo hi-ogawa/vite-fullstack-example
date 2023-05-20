@@ -11,9 +11,3 @@ docker/down:
 docker/clean:
 	docker-compose down -v --remove-orphans
 	docker-compose rm -f -s -v
-
-redis/reset: redis/reset/dev redis/reset/test
-
-redis/reset/dev:
-
-redis/reset/test:
