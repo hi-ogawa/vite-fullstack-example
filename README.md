@@ -11,6 +11,8 @@
   - tanstack query
 - persistence
   - redis
+- testing
+  - playwright (e2e)
 - deployment
   - vercel serverless, kv, cdn
 
