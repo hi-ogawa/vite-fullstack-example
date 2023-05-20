@@ -1,23 +1,16 @@
-# vite-fullstack-example
+# vite-fullstack-example (wip)
 
 ## tools
 
 - rendering
   - react
   - vite-plugin-ssr
-  - unocss (css)
+  - unocss
 - api
   - trpc
-  - react-query
-- TODO: database
-  - postgres
-  - drizzle (query builder)
-  - prisma (schema migration)
-- TODO: testing
-  - vitest (unit)
-  - playwright (e2e)
+  - tanstack query
 - deployment
-  - vercel cdn/serverless
+  - vercel serverless, cdn
 
 ## usage
 
@@ -26,7 +19,7 @@
 pnpm i
 pnpm dev
 
-# release
+# release (see also misc/vercel/README.md)
 pnpm build
 pnpm release
 pnpm release-production
