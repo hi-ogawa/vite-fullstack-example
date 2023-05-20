@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
-import { hattipApp } from "./hattip";
+import { createHattipApp } from "./hattip";
 import { listenPortSearchByEnv } from "./http";
 
 // test production build locally with express
@@ -16,7 +16,7 @@ async function main() {
   app.use(express.static(`./dist/client`));
 
   // application logic
-  app.use(createMiddleware(hattipApp));
+  app.use(createMiddleware(createHattipApp()));
 
   // start app
   const port = await listenPortSearchByEnv(server);

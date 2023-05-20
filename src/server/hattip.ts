@@ -1,4 +1,5 @@
 import { type RequestHandler, compose } from "@hattip/compose";
+import { typedBoolean } from "@hiogawa/utils";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
@@ -61,8 +62,12 @@ function createHattipLogger() {
   return hattipLogger;
 }
 
-export const hattipApp = compose(
-  createHattipLogger(),
-  hattipTrpc,
-  hattipVitePluginSsr
-);
+export function createHattipApp(options?: { noLogger?: boolean }) {
+  const handlers = [
+    !options?.noLogger && createHattipLogger(),
+    hattipTrpc,
+    hattipVitePluginSsr,
+  ].filter(typedBoolean);
+
+  return compose(handlers);
+}
