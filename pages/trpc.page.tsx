@@ -15,19 +15,26 @@ export function Page() {
     },
   });
 
+  const loading = counterQuery.isFetching || counterMutation.isLoading;
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-lg">
       <h2 className="text-lg">Server State</h2>
-      <div>counter = {counterQuery.isFetching ? "..." : counterQuery.data}</div>
+      <div className="flex items-center gap-3">
+        <span>counter = {counterQuery.data ?? "..."}</span>
+        {loading && <div className="antd-spin w-4 h-4"></div>}
+      </div>
       <div className="flex items-center gap-2">
         <button
           className="antd-btn antd-btn-default px-2"
+          disabled={loading}
           onClick={() => counterMutation.mutate({ delta: -1 })}
         >
           -1
         </button>
         <button
           className="antd-btn antd-btn-default px-2"
+          disabled={loading}
           onClick={() => counterMutation.mutate({ delta: +1 })}
         >
           +1
