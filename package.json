@@ -2,10 +2,10 @@
   "name": "@hiogawa/vite-fullstack-example",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:app": "pnpm app-build && run-p app-build-watch app-nodemon",
-    "app-build": "npx esbuild ./src/server/entry-dev.ts --bundle --external:vite --external:vite-plugin-ssr --sourcemap --outfile=./dist/dev.js --platform=node",
+    "dev:app": "run-p app-build-watch app-nodemon",
+    "app-build": "esbuild ./src/server/entry-dev.ts --bundle --external:vite --external:vite-plugin-ssr --sourcemap --outfile=./dist/dev.js --platform=node",
     "app-build-watch": "pnpm app-build --watch",
-    "app-nodemon": "npx nodemon ./dist/dev.js --watch ./dist/dev.js",
+    "app-nodemon": "bash misc/wait-for.sh test -f ./dist/dev.js && nodemon ./dist/dev.js --watch ./dist/dev.js",
     "preview": "NODE_ENV=production node ./dist/entry-preview.js",
     "preview-build": "run-s preview-build:*",
     "preview-build:vite": "vite build",
@@ -20,7 +20,9 @@
     "lint:isort": "pnpm lint-check:isort --fix",
     "lint-check:isort": "isort-ts --git --cache",
     "lint:prettier": "prettier -w --cache .",
-    "lint-check:prettier": "prettier -c --cache ."
+    "lint-check:prettier": "prettier -c --cache .",
+    "lint-extra": "run-s lint-extra:*",
+    "lint-extra:shellcheck": "shellcheck $(find misc -name '*.sh')"
   },
   "devDependencies": {
     "@hattip/adapter-node": "^0.0.34",
