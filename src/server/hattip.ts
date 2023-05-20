@@ -1,4 +1,4 @@
-import { RequestHandler, compose } from "@hattip/compose";
+import { type RequestHandler, compose } from "@hattip/compose";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { renderPage } from "vite-plugin-ssr/server";
 import { TRPC_ENDPOINT } from "../trpc/common";
