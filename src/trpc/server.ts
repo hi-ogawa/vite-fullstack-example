@@ -1,13 +1,13 @@
 import { z } from "zod";
+import { serverConfig } from "../utils/config";
+import { redis } from "../utils/redis-utils";
 import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
-
-let counter = 0;
 
 export const trpcRoot = trpcRouterFactory({
   _healthz: trpcProcedureBuilder.query(() => ({ ok: true })),
 
   getCounter: trpcProcedureBuilder.query(() => {
-    return counter;
+    return udpateCounter(0);
   }),
 
   updateCounter: trpcProcedureBuilder
@@ -17,6 +17,15 @@ export const trpcRoot = trpcRouterFactory({
       })
     )
     .mutation(({ input }) => {
-      counter += input.delta;
+      return udpateCounter(input.delta);
     }),
 });
+
+//
+// redis counter
+//
+
+function udpateCounter(delta: number): Promise<number> {
+  const key = `${serverConfig.APP_REDIS_PREFIX}:counter`;
+  return redis.incrby(key, delta);
+}

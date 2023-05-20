@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+  redis:
+    image: redis:7.0.11-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-volume:/data
+
+  dockerize:
+    image: jwilder/dockerize:0.6.1
+    profiles: ["tools"]
+
+volumes:
+  redis-volume:

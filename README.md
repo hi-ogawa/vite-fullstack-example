@@ -9,13 +9,16 @@
 - api
   - trpc
   - tanstack query
+- persistence
+  - redis
 - deployment
-  - vercel serverless, cdn
+  - vercel serverless, kv, cdn
 
 ## usage
 
 ```sh
 # development
+make docker/up redis/reset
 pnpm i
 pnpm dev
 
