@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
 import { TRPC_ENDPOINT } from "../trpc/common";
 import { trpcRoot } from "../trpc/server";
+import { hattipBootstrapHandler } from "../utils/bootstrap";
 
 const hattipVitePluginSsr: RequestHandler = async (ctx) => {
   const pageContext = await renderPage({ urlOriginal: ctx.request.url });
@@ -64,6 +65,7 @@ function createHattipLogger() {
 
 export function createHattipApp(options?: { noLogger?: boolean }) {
   const handlers = [
+    hattipBootstrapHandler,
     !options?.noLogger && createHattipLogger(),
     hattipTrpc,
     hattipVitePluginSsr,
