@@ -1,6 +1,6 @@
 {
   "extends": "@tsconfig/strictest/tsconfig.json",
-  "include": ["src", "pages", "renderer"],
+  "include": ["src", "pages", "renderer", "e2e"],
   "compilerOptions": {
     "verbatimModuleSyntax": true,
     "noPropertyAccessFromIndexSignature": false,
