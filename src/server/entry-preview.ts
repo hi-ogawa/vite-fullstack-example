@@ -1,13 +1,16 @@
+import { createServer } from "node:http";
 import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
 import { hattipApp } from "./hattip";
+import { listenPortSearchByEnv } from "./http";
 
 // test production build locally with express
-//   pnpm preview-build
+//   pnpm build-preview
 //   pnpm preview
 
 async function main() {
   const app = express();
+  const server = createServer(app);
 
   // serve /assets -> ./dist/client/assets
   app.use(express.static(`./dist/client`));
@@ -16,9 +19,8 @@ async function main() {
   app.use(createMiddleware(hattipApp));
 
   // start app
-  app.listen(3001, () => {
-    console.log(`Server running at http://localhost:3001`);
-  });
+  const port = await listenPortSearchByEnv(server);
+  console.log(`[entry-preview] Server running at http://localhost:${port}`);
 }
 
 main();
