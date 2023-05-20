@@ -1,8 +1,12 @@
 import type { RequestHandler } from "@hattip/compose";
 import { once } from "@hiogawa/utils";
+import { initializeConfig } from "./config";
 import { initializeRedis } from "./redis-utils";
 
+// initialize globals
+
 export async function bootstrap() {
+  initializeConfig();
   await initializeRedis();
 }
 

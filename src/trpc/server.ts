@@ -1,5 +1,5 @@
-import process from "node:process";
 import { z } from "zod";
+import { serverConfig } from "../utils/config";
 import { redis } from "../utils/redis-utils";
 import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
 
@@ -25,9 +25,7 @@ export const trpcRoot = trpcRouterFactory({
 // redis counter
 //
 
-const PREFIX = process.env["NODE_ENV"] ?? "development";
-const COUNTER_KEY = `${PREFIX}:counter`;
-
 function udpateCounter(delta: number): Promise<number> {
-  return redis.incrby(COUNTER_KEY, delta);
+  const key = `${serverConfig.APP_REDIS_PREFIX}:counter`;
+  return redis.incrby(key, delta);
 }

@@ -1,10 +1,12 @@
 import { Redis } from "ioredis";
+import { serverConfig } from "./config";
 
 export let redis: Redis;
 
 export async function initializeRedis() {
-  // TODO: configurable
-  const url = "redis://localhost:6379";
-  redis = new Redis(url, { lazyConnect: true, maxRetriesPerRequest: 3 });
+  redis = new Redis(serverConfig.APP_REDIS_URL, {
+    lazyConnect: true,
+    maxRetriesPerRequest: 3,
+  });
   await redis.ping();
 }
