@@ -12,6 +12,7 @@
 - persistence
   - redis
 - testing
+  - vitest (unit)
   - playwright (e2e)
 - deployment
   - vercel serverless, kv, cdn

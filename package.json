@@ -15,6 +15,7 @@
     "release-production": "vercel deploy --prebuilt . --prod",
     "tsc": "tsc -b",
     "dev:tsc": "tsc -b --watch --preserveWatchOutput",
+    "test": "make test/setup && vitest",
     "test-e2e": "make test/setup && playwright test",
     "lint": "run-s lint:*",
     "lint-check": "run-s lint-check:*",
@@ -61,6 +62,7 @@
     "unocss": "^0.51.13",
     "vite": "^4.3.8",
     "vite-plugin-ssr": "^0.4.125",
+    "vitest": "^0.31.1",
     "zod": "^3.21.4"
   },
   "volta": {
