@@ -1,14 +1,22 @@
 import type { RequestHandler } from "@hattip/compose";
 import { once } from "@hiogawa/utils";
 import { initializeConfig } from "./config";
-import { initializeRedis } from "./redis-utils";
+import { finalizeRedis, initializeRedis } from "./redis-utils";
 
-// initialize globals
+// initialize/finalize globals
 
 export async function bootstrap() {
   initializeConfig();
   await initializeRedis();
 }
+
+export async function shutdown() {
+  await finalizeRedis();
+}
+
+//
+// integrate to request handler
+//
 
 const bootstrapOnce = once(bootstrap);
 

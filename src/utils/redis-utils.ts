@@ -10,3 +10,7 @@ export async function initializeRedis() {
   });
   await redis.ping();
 }
+
+export async function finalizeRedis() {
+  await redis?.quit();
+}
