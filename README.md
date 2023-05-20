@@ -9,8 +9,10 @@
 - api
   - trpc
   - tanstack query
+- persistence
+  - redis
 - deployment
-  - vercel serverless, cdn
+  - vercel serverless, kv, cdn
 
 ## usage
 
