@@ -18,6 +18,7 @@
 
 ```sh
 # development
+make docker/up redis/reset
 pnpm i
 pnpm dev
 
