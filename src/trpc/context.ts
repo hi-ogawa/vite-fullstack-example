@@ -8,6 +8,7 @@ export const createTrpcAppContext = async ({
   resHeaders,
 }: FetchCreateContextFnOptions) => {
   return {
+    req,
     session: await initializeSession(req.headers, resHeaders),
   };
 };
