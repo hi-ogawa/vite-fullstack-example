@@ -39,8 +39,8 @@ export function ReactQueryWrapper(props: React.PropsWithChildren) {
       {props.children}
       {import.meta.env.DEV && (
         <LazyComponent
-          // v5 seems to do something funcy breaking ssr https://github.com/TanStack/query/pull/5347
-          // but we shouldn't bother SSR-ing dev tools anyway
+          // it seems v5 devtools have import side effect which doesn't even allow importing on server https://github.com/TanStack/query/pull/5347
+          // anyway we shouldn't bother SSR-ing devtools so let's just dynamic import
           importer={() => import("@tanstack/react-query-devtools")}
           render={({ ReactQueryDevtools }) => <ReactQueryDevtools />}
         />
