@@ -5,6 +5,8 @@ import { ToastWrapper } from "../src/utils/toast-utils";
 import { Root } from "./root";
 import type { PageContext } from "./types";
 
+// TODO: avoid circular deps...
+
 export const PAGE_DOM_ID = "__page";
 
 export function PageWrapper(

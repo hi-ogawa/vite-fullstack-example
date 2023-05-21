@@ -13,12 +13,8 @@ export enum FlashType {
   LogoutSuccess = "3",
 }
 
-const Z_FLASH_TYPE = z.nativeEnum(FlashType);
-
-const FLASH_KEY = "__flash";
-
-const Z_FLASH_PARAMS = z.object({
-  __flash: Z_FLASH_TYPE,
+export const Z_FLASH_QUERY = z.object({
+  flash: z.nativeEnum(FlashType).optional(),
 });
 
 export function useFlashMessageHandler() {
@@ -26,9 +22,9 @@ export function useFlashMessageHandler() {
 
   // only once on mount
   useEffectNoStrict(() => {
-    const parsed = Z_FLASH_PARAMS.safeParse(ctx.urlParsed.search);
-    if (parsed.success) {
-      switch (parsed.data.__flash) {
+    const parsed = Z_FLASH_QUERY.safeParse(ctx.urlParsed.search);
+    if (parsed.success && parsed.data.flash) {
+      switch (parsed.data.flash) {
         case FlashType.AlreadyLoggedIn: {
           toast.error("Already logged in");
           break;
@@ -48,7 +44,7 @@ export function useFlashMessageHandler() {
       }
       // mutate history in a way that vite-plugin-ssr won't notice (TODO: is it allowed?)
       const url = new URL(ctx.urlOriginal, DUMMY_BASE);
-      url.searchParams.delete(FLASH_KEY);
+      url.searchParams.delete(Z_FLASH_QUERY.keyof().enum.flash);
       const urlString = url.toString().slice(DUMMY_BASE.length);
       window.history.replaceState(window.history.state, "", urlString);
     }

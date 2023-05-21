@@ -1,4 +1,5 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import { createGetterProxy } from "../utils/misc";
 import { trpcClient } from "./client";
 import type { trpcRoot } from "./server";
 
@@ -24,8 +25,8 @@ type ReactQueryIntegration = {
 
 // prettier-ignore
 export const trpcRQ =
-  createGetProxy((k) =>
-    createGetProxy(prop => {
+  createGetterProxy((k) =>
+    createGetterProxy(prop => {
       if (prop === "queryKey" || prop === "mutationKey") {
         return k;
       }
@@ -44,16 +45,3 @@ export const trpcRQ =
       throw new Error(`invalid trpcRQ access: ${String(k)} ${String(prop)}`);
     })
   ) as ReactQueryIntegration;
-
-function createGetProxy(
-  propHandler: (prop: string | symbol) => unknown
-): unknown {
-  return new Proxy(
-    {},
-    {
-      get(_target, prop, _receiver) {
-        return propHandler(prop);
-      },
-    }
-  );
-}
