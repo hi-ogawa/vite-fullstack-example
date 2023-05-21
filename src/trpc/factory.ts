@@ -1,6 +1,7 @@
 import { initTRPC } from "@trpc/server";
+import type { TrpcAppContext } from "./context";
 
-const t = initTRPC.create();
+const t = initTRPC.context<TrpcAppContext>().create();
 
 export const trpcRouterFactory = t.router;
 export const trpcMiddlewareFactory = t.middleware;

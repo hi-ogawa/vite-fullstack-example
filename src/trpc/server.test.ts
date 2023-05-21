@@ -8,7 +8,7 @@ describe("trpc", () => {
   });
 
   it("basic", async () => {
-    const trpc = createTestTrpc();
+    const trpc = await createTestTrpc();
     expect(await trpc.caller.getCounter()).toMatchInlineSnapshot("0");
     expect(await trpc.caller.updateCounter({ delta: 1 })).toMatchInlineSnapshot(
       "1"

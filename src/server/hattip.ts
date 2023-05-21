@@ -4,6 +4,7 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
 import { TRPC_ENDPOINT } from "../trpc/common";
+import { createTrpcAppContext } from "../trpc/context";
 import { trpcRoot } from "../trpc/server";
 import { hattipBootstrapHandler } from "../utils/bootstrap";
 
@@ -31,9 +32,9 @@ const hattipTrpc: RequestHandler = (ctx) => {
     endpoint: TRPC_ENDPOINT,
     req: ctx.request,
     router: trpcRoot,
-    createContext: () => ({}),
-    // quick error logging
+    createContext: createTrpcAppContext,
     onError: (e) => {
+      // quick error logging
       console.error(e);
     },
   });
