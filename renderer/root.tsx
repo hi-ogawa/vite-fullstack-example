@@ -1,10 +1,10 @@
 import React from "react";
 import { cls } from "../src/utils/misc";
 import { usePageContext } from "./common";
-import { useFlushMessageHandler } from "./flash";
+import { useFlashMessageHandler } from "./flash";
 
 export function Root(props: React.PropsWithChildren) {
-  useFlushMessageHandler();
+  useFlashMessageHandler();
 
   return (
     <div>

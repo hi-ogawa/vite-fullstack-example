@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { usePageContext } from "./common";
 
-// quick hack to show fixed set of flush messages on redirection
+// quick hack to show fixed set of flash messages on redirection
 
 export enum FlashType {
   RequireLogin = "0",
@@ -21,7 +21,7 @@ const Z_FLASH_PARAMS = z.object({
   __flash: Z_FLASH_TYPE,
 });
 
-export function useFlushMessageHandler() {
+export function useFlashMessageHandler() {
   const ctx = usePageContext();
 
   // only once on mount
