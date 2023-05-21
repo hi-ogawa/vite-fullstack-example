@@ -1,3 +1,4 @@
+import process from "node:process";
 import { tinyassert } from "@hiogawa/utils";
 import { z } from "zod";
 import { serverConfig } from "../utils/config";
@@ -6,6 +7,16 @@ import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
 
 export const trpcRoot = trpcRouterFactory({
   _healthz: trpcProcedureBuilder.query(() => ({ ok: true })),
+
+  _debug: trpcProcedureBuilder.query(({ ctx }) => {
+    return {
+      versions: process.versions,
+      vercelEnv: Object.fromEntries(
+        Object.entries(process.env).filter(([k]) => k.startsWith("VERCEL_"))
+      ),
+      requestHeaders: headersEntries(ctx.req.headers),
+    };
+  }),
 
   getCounter: trpcProcedureBuilder.query(() => {
     return udpateCounter(0);
@@ -46,4 +57,16 @@ export const trpcRoot = trpcRouterFactory({
 function udpateCounter(delta: number): Promise<number> {
   const key = `${serverConfig.APP_REDIS_PREFIX}:counter`;
   return redis.incrby(key, delta);
+}
+
+//
+// misc
+//
+
+function headersEntries(headers: Headers) {
+  const entries: [string, string][] = [];
+  headers.forEach((v, k) => {
+    entries.push([k, v]);
+  });
+  return entries;
 }

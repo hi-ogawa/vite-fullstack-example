@@ -18,7 +18,6 @@ const hattipVitePluginSsr: RequestHandler = async (ctx) => {
   return new Response(res.getReadableWebStream(), {
     status: res.statusCode,
     headers: {
-      // TODO: extra header via custom pageContext? (e.g. set-cookie)
       "content-type": res.contentType,
     },
   });
