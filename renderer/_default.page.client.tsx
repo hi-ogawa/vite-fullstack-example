@@ -13,7 +13,7 @@ export const render: PageClientRender = (ctx) => {
 
   const page = (
     <React.StrictMode>
-      <PageWrapper>
+      <PageWrapper pageContext={ctx}>
         <ctx.Page {...ctx.pageProps} />
       </PageWrapper>
     </React.StrictMode>

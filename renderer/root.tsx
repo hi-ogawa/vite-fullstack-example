@@ -1,4 +1,6 @@
 import React from "react";
+import { cls } from "../src/utils/misc";
+import { usePageContext } from "./common";
 
 export function Root(props: React.PropsWithChildren) {
   return (
@@ -40,13 +42,17 @@ function ThemeSelect() {
 }
 
 function PageLinkList() {
+  const ctx = usePageContext();
+
   return (
     <ul className="flex items-center gap-3">
       {LINKS.map((href) => (
         <li key={href}>
-          {/* TODO: style active link */}
           <a
-            className="antd-btn antd-btn-default p-0.5 px-1 font-mono text-sm"
+            className={cls(
+              "border antd-menu-item p-0.5 px-1 font-mono text-sm",
+              href === ctx.urlPathname && "antd-menu-item-active"
+            )}
             href={href}
           >
             {href}
