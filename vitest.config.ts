@@ -5,4 +5,5 @@ export default defineConfig({
     exclude: [...defaultExclude, "./e2e"],
     setupFiles: ["./src/misc/vitest-setup.ts"],
   },
+  envDir: "__disableEnvDir",
 });

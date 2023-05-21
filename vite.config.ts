@@ -6,4 +6,5 @@ import ssr from "vite-plugin-ssr/plugin";
 export default defineConfig({
   plugins: [unocss(), react(), ssr()],
   clearScreen: false,
+  envDir: "__disableEnvDir", // let's do it manually explicitly
 });
