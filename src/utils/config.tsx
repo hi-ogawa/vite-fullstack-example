@@ -7,7 +7,7 @@ const Z_SERVER_CONFIG = z.object({
   // session
   //
   APP_SESSION_PASSWORD: z.string().min(32).default("46876d2156b52a0e0f52df65ae3cbd26"),
-  APP_SESSION_NAME: z.string().default("vite-fullstack:session"),
+  APP_SESSION_NAME: z.string().default("vite-fullstack-session"),
 
   //
   // redis

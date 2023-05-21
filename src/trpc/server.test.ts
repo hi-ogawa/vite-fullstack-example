@@ -16,3 +16,21 @@ describe("trpc", () => {
     expect(await trpc.caller.getCounter()).toMatchInlineSnapshot("1");
   });
 });
+
+describe("me", () => {
+  it("no session", async () => {
+    const trpc = await createTestTrpc();
+    expect(await trpc.caller.me()).toMatchInlineSnapshot("null");
+  });
+
+  it("with session", async () => {
+    const trpc = await createTestTrpc({
+      sessionData: { user: { name: "tester" } },
+    });
+    expect(await trpc.caller.me()).toMatchInlineSnapshot(`
+      {
+        "name": "tester",
+      }
+    `);
+  });
+});

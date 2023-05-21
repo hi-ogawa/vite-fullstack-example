@@ -5,7 +5,7 @@ import { trpcRoot } from "./server";
 export async function createTestTrpc(options?: { sessionData: SessionData }) {
   const req = new Request("http://__dummy.local");
   if (options) {
-    injectSessionData(req.headers, options.sessionData);
+    await injectSessionData(req.headers, options.sessionData);
   }
   const ctx = await createTrpcAppContext({
     req,
