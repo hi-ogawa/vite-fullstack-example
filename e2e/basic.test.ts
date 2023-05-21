@@ -25,6 +25,20 @@ test("basic", async ({ page }) => {
   await page.getByText("counter = 0").click();
 });
 
+test("session", async ({ page }) => {
+  await page.goto("/session");
+  await waitForHydration(page);
+
+  await page.getByLabel("Name").click();
+  await page.getByLabel("Name").fill("tester");
+  await page.getByRole("button", { name: "Login" }).click();
+
+  await page.getByText("Hello, tester").click();
+  await page.getByRole("button", { name: "Logout" }).click();
+
+  await page.getByRole("button", { name: "Login" }).waitFor();
+});
+
 //
 // helper
 //

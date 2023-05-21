@@ -55,4 +55,4 @@ function PageLinkList() {
   );
 }
 
-const LINKS = ["/", "/other", "/trpc"];
+const LINKS = ["/", "/other", "/trpc", "/session"];

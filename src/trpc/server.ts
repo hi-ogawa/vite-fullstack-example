@@ -1,3 +1,4 @@
+import { tinyassert } from "@hiogawa/utils";
 import { z } from "zod";
 import { serverConfig } from "../utils/config";
 import { redis } from "../utils/redis-utils";
@@ -19,6 +20,23 @@ export const trpcRoot = trpcRouterFactory({
     .mutation(({ input }) => {
       return udpateCounter(input.delta);
     }),
+
+  login: trpcProcedureBuilder
+    .input(z.object({ name: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      tinyassert(!ctx.session.user);
+      ctx.session.user = { name: input.name };
+      await ctx.session.save();
+    }),
+
+  logout: trpcProcedureBuilder.mutation(async ({ ctx }) => {
+    tinyassert(ctx.session.user);
+    ctx.session.destroy();
+  }),
+
+  me: trpcProcedureBuilder.query(({ ctx }) => {
+    return ctx.session.user ?? null;
+  }),
 });
 
 //
