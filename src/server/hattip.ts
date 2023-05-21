@@ -3,13 +3,32 @@ import { typedBoolean } from "@hiogawa/utils";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
+import { Z_THROWN_REPONSE_PAGE_CONTEXT } from "../../renderer/server-utils";
+import type { PageContextInit } from "../../renderer/types";
 import { TRPC_ENDPOINT } from "../trpc/common";
 import { createTrpcAppContext } from "../trpc/context";
 import { trpcRoot } from "../trpc/server";
 import { hattipBootstrapHandler } from "../utils/bootstrap";
 
+//
+// vite plugin ssr
+//
+
 const hattipVitePluginSsr: RequestHandler = async (ctx) => {
-  const pageContext = await renderPage({ urlOriginal: ctx.request.url });
+  const pageContext = await renderPage<{}, PageContextInit>({
+    urlOriginal: ctx.request.url,
+    trpcCtx: await createTrpcAppContext({
+      req: ctx.request,
+      resHeaders: new Headers(),
+    }),
+  });
+
+  // intercept directly thrown response
+  const thrown = Z_THROWN_REPONSE_PAGE_CONTEXT.safeParse(pageContext);
+  if (thrown.success) {
+    return thrown.data.__response;
+  }
+
   const res = pageContext.httpResponse;
   if (!res) {
     return ctx.next();
@@ -22,6 +41,10 @@ const hattipVitePluginSsr: RequestHandler = async (ctx) => {
     },
   });
 };
+
+//
+// trpc
+//
 
 const hattipTrpc: RequestHandler = (ctx) => {
   if (!ctx.url.pathname.startsWith(TRPC_ENDPOINT)) {
@@ -38,6 +61,10 @@ const hattipTrpc: RequestHandler = (ctx) => {
     },
   });
 };
+
+//
+// logger
+//
 
 function createHattipLogger() {
   // borrow hono's logger with minimal compatibility hack

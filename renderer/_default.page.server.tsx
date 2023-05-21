@@ -2,9 +2,12 @@ import THEME_SCRIPT from "@hiogawa/utils-experimental/dist/theme-script.global.j
 import { renderToString } from "react-dom/server";
 import { dangerouslySkipEscape, escapeInject } from "vite-plugin-ssr/server";
 import { PAGE_DOM_ID, PageWrapper } from "./common";
-import type { PageServerRender } from "./types";
+import type { PageContext, PageServerRender } from "./types";
 
-export const passToClient = ["pageProps"];
+export const passToClient = [
+  "pageProps",
+  "trpcCtx",
+] satisfies (keyof PageContext)[];
 
 export const render: PageServerRender = (ctx) => {
   // TODO: streaming

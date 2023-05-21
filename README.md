@@ -21,7 +21,7 @@
 
 ```sh
 # development
-make docker/up redis/reset
+make docker/up
 pnpm i
 pnpm dev
 
