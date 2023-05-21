@@ -1,3 +1,4 @@
+import { FlashType } from "../../renderer/flash";
 import { redirect } from "../../renderer/server-utils";
 import type { OnBeforeRenderFunction } from "../../renderer/types";
 
@@ -8,8 +9,7 @@ export type PageProps = {
 export const onBeforeRender: OnBeforeRenderFunction<PageProps> = (ctx) => {
   const { user } = ctx.trpcCtx.session;
   if (!user) {
-    // TODO: error message/toast after redirection?
-    throw redirect("/session/login");
+    throw redirect("/session/login?__flash=" + FlashType.RequireLogin);
   }
 
   return {
