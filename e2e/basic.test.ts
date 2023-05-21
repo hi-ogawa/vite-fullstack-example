@@ -13,8 +13,8 @@ test("basic", async ({ page }) => {
   await page.getByRole("button", { name: "+1" }).click();
   await page.getByText("counter: 1").click();
 
-  await page.getByRole("link", { name: "/trpc" }).click();
-  await page.waitForURL("/trpc");
+  await page.getByRole("link", { name: "/server-counter" }).click();
+  await page.waitForURL("/server-counter");
 
   await page.getByText("counter = 0").click();
   await page.getByRole("button", { name: "+1" }).click();

@@ -56,5 +56,4 @@ function PageLinkList() {
   );
 }
 
-// TODO: remove "/other"
-const LINKS = ["/", "/other", "/trpc", "/session/login", "/session/me"];
+const LINKS = ["/", "/server-counter", "/session/login", "/session/me"];

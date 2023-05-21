@@ -19,7 +19,7 @@ export function Page() {
 
   return (
     <div className="flex flex-col gap-2 w-lg">
-      <h2 className="text-lg">tRPC example</h2>
+      <h2 className="text-lg">server counter example</h2>
       <div className="flex items-center gap-3">
         <span>counter = {counterQuery.data ?? "..."}</span>
         {loading && <div className="antd-spin w-4 h-4"></div>}
