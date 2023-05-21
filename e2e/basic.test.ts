@@ -1,4 +1,5 @@
 import { type Page, expect, test } from "@playwright/test";
+import { regExpRaw } from "../src/utils/misc";
 import { execPromise } from "../src/utils/node-utils";
 
 test.beforeAll(async () => {
@@ -39,13 +40,13 @@ test.describe("session", () => {
     await page.getByText("Successfully logged in").click();
 
     // check name and logout
-    await page.waitForURL("/session/me");
+    await page.waitForURL(regExpRaw`/session/me$`);
     await waitForHydration(page);
     await page.getByText("Hello, dev").click();
     await page.getByRole("button", { name: "Logout" }).click();
     await page.getByText("Successfully logged out").click();
 
-    await page.waitForURL("/session/login");
+    await page.waitForURL(regExpRaw`/session/login$`);
   });
 
   test("server redirection", async ({ page }) => {
