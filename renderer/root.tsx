@@ -31,7 +31,9 @@ function RootInner(props: React.PropsWithChildren) {
   return (
     <div className="flex flex-col">
       <PageHeader />
-      <main className="flex-1 flex flex-col items-center p-4">{props.children}</main>
+      <main className="flex-1 flex flex-col items-center p-4">
+        {props.children}
+      </main>
     </div>
   );
 }
