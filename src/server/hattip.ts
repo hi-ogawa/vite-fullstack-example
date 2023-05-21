@@ -3,13 +3,20 @@ import { typedBoolean } from "@hiogawa/utils";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
+import type { PageContextInit } from "../../renderer/types";
 import { TRPC_ENDPOINT } from "../trpc/common";
 import { createTrpcAppContext } from "../trpc/context";
 import { trpcRoot } from "../trpc/server";
 import { hattipBootstrapHandler } from "../utils/bootstrap";
 
 const hattipVitePluginSsr: RequestHandler = async (ctx) => {
-  const pageContext = await renderPage({ urlOriginal: ctx.request.url });
+  const pageContext = await renderPage<{}, PageContextInit>({
+    urlOriginal: ctx.request.url,
+    trpcCtx: await createTrpcAppContext({
+      req: ctx.request,
+      resHeaders: new Headers(),
+    }),
+  });
   const res = pageContext.httpResponse;
   if (!res) {
     return ctx.next();
