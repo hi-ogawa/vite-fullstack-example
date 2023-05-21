@@ -1,7 +1,8 @@
 import THEME_SCRIPT from "@hiogawa/utils-experimental/dist/theme-script.global.js?raw";
 import { renderToString } from "react-dom/server";
 import { dangerouslySkipEscape, escapeInject } from "vite-plugin-ssr/server";
-import { PAGE_DOM_ID, PageWrapper } from "./common";
+import { PAGE_DOM_ID } from "./common";
+import { Root } from "./root";
 import type { PageContext, PageServerRender } from "./types";
 
 export const passToClient = [
@@ -12,9 +13,9 @@ export const passToClient = [
 export const render: PageServerRender = (ctx) => {
   // TODO: streaming
   const page = (
-    <PageWrapper pageContext={ctx}>
+    <Root pageContext={ctx}>
       <ctx.Page {...ctx.pageProps} />
-    </PageWrapper>
+    </Root>
   );
   const pageString = renderToString(page);
   const documentHtml = wrapDocumentHtml(pageString);

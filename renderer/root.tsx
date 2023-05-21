@@ -1,27 +1,39 @@
+import { Compose } from "@hiogawa/utils-react";
 import React from "react";
 import { cls } from "../src/utils/misc";
-import { usePageContext } from "./common";
+import { ReactQueryWrapper } from "../src/utils/react-query-utils";
+import { ToastWrapper } from "../src/utils/toast-utils";
+import { PageContextProvider, usePageContext } from "./common";
 import { useFlashMessageHandler } from "./flash";
+import type { PageContext } from "./types";
 
-export function Root(props: React.PropsWithChildren) {
+export function Root(
+  props: React.PropsWithChildren<{ pageContext: PageContext }>
+) {
+  return (
+    <Compose
+      elements={[
+        <React.StrictMode />,
+        <ToastWrapper />,
+        <ReactQueryWrapper />,
+        <PageContextProvider value={props.pageContext} />,
+        <RootInner />,
+      ]}
+    >
+      {props.children}
+    </Compose>
+  );
+}
+
+function RootInner(props: React.PropsWithChildren) {
   useFlashMessageHandler();
 
   return (
-    <div>
-      <header className="flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">
-        <div className="flex gap-3">
-          Pages
-          <PageLinkList />
-        </div>
-        <span className="flex-1"></span>
-        <ThemeSelect />
-        <a
-          className="i-ri-github-line w-6 h-6"
-          href="https://github.com/hi-ogawa/vite-fullstack-example"
-          target="_blank"
-        ></a>
-      </header>
-      <main className="flex flex-col items-center p-4">{props.children}</main>
+    <div className="flex flex-col">
+      <PageHeader />
+      <main className="flex-1 flex flex-col items-center p-4">
+        {props.children}
+      </main>
     </div>
   );
 }
@@ -41,6 +53,28 @@ function ThemeSelect() {
         __themeSet(__themeGet() === "dark" ? "light" : "dark");
       }}
     ></button>
+  );
+}
+
+//
+// header
+//
+
+function PageHeader() {
+  return (
+    <header className="flex-none flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">
+      <div className="flex gap-3">
+        Pages
+        <PageLinkList />
+      </div>
+      <span className="flex-1"></span>
+      <ThemeSelect />
+      <a
+        className="i-ri-github-line w-6 h-6"
+        href="https://github.com/hi-ogawa/vite-fullstack-example"
+        target="_blank"
+      ></a>
+    </header>
   );
 }
 
