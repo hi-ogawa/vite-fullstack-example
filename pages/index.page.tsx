@@ -5,7 +5,7 @@ export function Page() {
 
   return (
     <div className="flex flex-col gap-2 w-lg">
-      <h2 className="text-lg">Client State</h2>
+      <h2 className="text-lg">React state example</h2>
       <div>counter: {value}</div>
       <div className="flex items-center gap-2">
         <button
