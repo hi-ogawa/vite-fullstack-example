@@ -29,21 +29,9 @@ function RootInner(props: React.PropsWithChildren) {
   useFlashMessageHandler();
 
   return (
-    <div>
-      <header className="flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">
-        <div className="flex gap-3">
-          Pages
-          <PageLinkList />
-        </div>
-        <span className="flex-1"></span>
-        <ThemeSelect />
-        <a
-          className="i-ri-github-line w-6 h-6"
-          href="https://github.com/hi-ogawa/vite-fullstack-example"
-          target="_blank"
-        ></a>
-      </header>
-      <main className="flex flex-col items-center p-4">{props.children}</main>
+    <div className="flex flex-col">
+      <PageHeader />
+      <main className="flex-1 flex flex-col items-center p-4">{props.children}</main>
     </div>
   );
 }
@@ -63,6 +51,28 @@ function ThemeSelect() {
         __themeSet(__themeGet() === "dark" ? "light" : "dark");
       }}
     ></button>
+  );
+}
+
+//
+// header
+//
+
+function PageHeader() {
+  return (
+    <header className="flex-none flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">
+      <div className="flex gap-3">
+        Pages
+        <PageLinkList />
+      </div>
+      <span className="flex-1"></span>
+      <ThemeSelect />
+      <a
+        className="i-ri-github-line w-6 h-6"
+        href="https://github.com/hi-ogawa/vite-fullstack-example"
+        target="_blank"
+      ></a>
+    </header>
   );
 }
 
