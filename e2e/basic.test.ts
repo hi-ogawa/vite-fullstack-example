@@ -51,7 +51,7 @@ test.describe("session", () => {
     await page.waitForURL("/session/login");
   });
 
-  test.only("client redirection", async ({ page }) => {
+  test("client redirection", async ({ page }) => {
     await page.goto("/");
     await waitForHydration(page);
 
