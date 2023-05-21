@@ -1,13 +1,9 @@
 import { tinyassert } from "@hiogawa/utils";
 import { z } from "zod";
-import { FlashType } from "../../renderer/flash";
+import { Z_FLASH_QUERY } from "../../renderer/flash";
 import { createGetterProxy } from "./misc";
 
 // based on https://github.com/hi-ogawa/ytsub-v3/blob/ae1e25a081e02f467c3e77d2ef312a21cb8cf37a/app/misc/routes.ts
-
-const Z_FLASH_QUERY = z.object({
-  flash: z.nativeEnum(FlashType),
-});
 
 export const ROUTES = {
   "/": {},
@@ -23,7 +19,7 @@ export const ROUTES = {
   },
 };
 
-export const $ROUTES = createRouteFormatterProxy(ROUTES);
+export const $R = createRouteFormatterProxy(ROUTES);
 
 //
 // utils

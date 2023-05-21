@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { FlashType } from "../../renderer/flash";
-import { $ROUTES, createRouteFormatterProxy } from "./typed-routes";
+import { $R, createRouteFormatterProxy } from "./typed-routes";
 
 describe(createRouteFormatterProxy.name, () => {
   it("basic", () => {
     expect([
-      $ROUTES["/session/login"]({ q: { flash: FlashType.RequireLogin } }),
-      $ROUTES["/session/me"](),
-      $ROUTES["/server-counter"](),
-      $ROUTES["/dummy/@id"]({ p: { id: 123 } }),
+      $R["/session/login"]({ q: { flash: FlashType.RequireLogin } }),
+      $R["/session/me"](),
+      $R["/server-counter"](),
+      $R["/dummy/@id"]({ p: { id: 123 } }),
     ]).toMatchInlineSnapshot(`
       [
         "/session/login?flash=0",
