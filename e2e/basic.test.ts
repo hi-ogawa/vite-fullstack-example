@@ -25,18 +25,39 @@ test("basic", async ({ page }) => {
   await page.getByText("counter = 0").click();
 });
 
-test("session", async ({ page }) => {
-  await page.goto("/session");
-  await waitForHydration(page);
+test.describe("session", () => {
+  test("basic", async ({ page }) => {
+    await page.goto("/");
+    await waitForHydration(page);
 
-  await page.getByLabel("Name").click();
-  await page.getByLabel("Name").fill("tester");
-  await page.getByRole("button", { name: "Login" }).click();
+    // login
+    await page.getByRole("link", { name: "/session/login" }).click();
+    await page.waitForURL("/session/login");
+    await page.getByLabel("Name").click();
+    await page.getByLabel("Name").fill("dev");
+    await page.getByRole("button", { name: "Login" }).click();
 
-  await page.getByText("Hello, tester").click();
-  await page.getByRole("button", { name: "Logout" }).click();
+    // check name and logout
+    await page.waitForURL("/session/me");
+    await waitForHydration(page);
+    await page.getByText("Hello, dev").click();
+    await page.getByRole("button", { name: "Logout" }).click();
 
-  await page.getByRole("button", { name: "Login" }).waitFor();
+    await page.waitForURL("/session/login");
+  });
+
+  test("server redirection", async ({ page }) => {
+    await page.goto("/session/me");
+    await page.waitForURL("/session/login");
+  });
+
+  test.only("client redirection", async ({ page }) => {
+    await page.goto("/");
+    await waitForHydration(page);
+
+    await page.getByRole("link", { name: "/session/me" }).click();
+    await page.waitForURL("/session/login");
+  });
 });
 
 //

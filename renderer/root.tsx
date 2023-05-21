@@ -46,6 +46,7 @@ function PageLinkList() {
     <ul className="flex items-center gap-3">
       {LINKS.map((href) => (
         <li key={href}>
+          {/* TODO: style active link */}
           <a className="antd-btn antd-btn-default p-0.5 px-2" href={href}>
             {href}
           </a>
@@ -55,4 +56,5 @@ function PageLinkList() {
   );
 }
 
-const LINKS = ["/", "/other", "/trpc", "/session"];
+// TODO: remove "/other"
+const LINKS = ["/", "/other", "/trpc", "/session/login", "/session/me"];
