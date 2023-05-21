@@ -23,3 +23,10 @@ export type PageServerRender = (ctx: PageContext) => {
   documentHtml: ReturnType<typeof escapeInject>;
   pageContext: {}; // TODO: extra context can be passed to client (e.g. document title)
 };
+
+// onBeforeRender wrapper
+export type OnBeforeRenderFunction<PageProps = {}> = (ctx: PageContext) => {
+  pageContext: {
+    pageProps: PageProps;
+  };
+};

@@ -1,18 +1,11 @@
 import { redirect } from "../../renderer/server-utils";
-import type { PageContext } from "../../renderer/types";
+import type { OnBeforeRenderFunction } from "../../renderer/types";
 
 export type PageProps = {
   name: string;
 };
 
-// TODO: typing wrapper
-type OnBeforeRenderFunction = (pageContext: PageContext) => {
-  pageContext: {
-    pageProps: PageProps;
-  };
-};
-
-export const onBeforeRender: OnBeforeRenderFunction = (ctx) => {
+export const onBeforeRender: OnBeforeRenderFunction<PageProps> = (ctx) => {
   const { user } = ctx.trpcCtx.session;
   if (!user) {
     // TODO: error message/toast after redirection?
