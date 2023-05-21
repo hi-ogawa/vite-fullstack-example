@@ -1,9 +1,31 @@
+import { Compose } from "@hiogawa/utils-react";
 import React from "react";
 import { cls } from "../src/utils/misc";
-import { usePageContext } from "./common";
+import { ReactQueryWrapper } from "../src/utils/react-query-utils";
+import { ToastWrapper } from "../src/utils/toast-utils";
+import { PageContextProvider, usePageContext } from "./common";
 import { useFlashMessageHandler } from "./flash";
+import type { PageContext } from "./types";
 
-export function Root(props: React.PropsWithChildren) {
+export function Root(
+  props: React.PropsWithChildren<{ pageContext: PageContext }>
+) {
+  return (
+    <Compose
+      elements={[
+        <React.StrictMode />,
+        <ToastWrapper />,
+        <ReactQueryWrapper />,
+        <PageContextProvider value={props.pageContext} />,
+        <RootInner />,
+      ]}
+    >
+      {props.children}
+    </Compose>
+  );
+}
+
+function RootInner(props: React.PropsWithChildren) {
   useFlashMessageHandler();
 
   return (

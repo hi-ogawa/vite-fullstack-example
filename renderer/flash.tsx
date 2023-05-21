@@ -1,7 +1,6 @@
-import { once } from "@hiogawa/utils";
-import React from "react";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
+import { useEffectNoStrict } from "../src/utils/react-utils";
 import { usePageContext } from "./common";
 
 // quick hack to show fixed set of flash messages on redirection
@@ -20,7 +19,6 @@ export const Z_FLASH_QUERY = z.object({
 export function useFlashMessageHandler() {
   const ctx = usePageContext();
 
-  // only once on mount
   useEffectNoStrict(() => {
     const parsed = Z_FLASH_QUERY.safeParse(ctx.urlParsed.search);
     if (parsed.success && parsed.data.flash) {
@@ -52,8 +50,3 @@ export function useFlashMessageHandler() {
 }
 
 const DUMMY_BASE = "http://__dummy.local";
-
-// workaround StrictMode double effect
-function useEffectNoStrict(...args: Parameters<typeof React.useEffect>) {
-  return React.useEffect(once(args[0]), args[1]);
-}
