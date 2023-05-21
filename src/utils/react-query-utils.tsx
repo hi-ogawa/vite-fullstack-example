@@ -2,9 +2,8 @@ import {
   QueryCache,
   QueryClient,
   QueryClientProvider,
-  type QueryOptions,
-  useQuery,
 } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import { toast } from "react-hot-toast";
 
@@ -37,31 +36,32 @@ export function ReactQueryWrapper(props: React.PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       {props.children}
+      {/* it seems v5 devtools have import side effect which doesn't even allow importing on server https://github.com/TanStack/query/pull/5347 */}
+      {/* anyway we shouldn't bother SSR-ing devtools so let's just lazy load */}
       {import.meta.env.DEV && (
-        <LazyComponent
-          // v5 seems to do something funcy breaking ssr https://github.com/TanStack/query/pull/5347
-          // but we shouldn't bother SSR-ing dev tools anyway
-          importer={() => import("@tanstack/react-query-devtools")}
-          render={({ ReactQueryDevtools }) => <ReactQueryDevtools />}
-        />
+        <ClientOnly>
+          <ReactQueryDevtools />
+        </ClientOnly>
       )}
     </QueryClientProvider>
   );
 }
 
-export function LazyComponent<T>(props: {
-  importer: () => Promise<T>;
-  render: (data: T) => React.ReactNode;
-  fallback?: React.ReactNode;
-}) {
-  const query = useQuery(usePromiseQueryOpitons(props.importer));
-  return <>{query.isSuccess ? props.render(query.data) : props.fallback}</>;
+function ClientOnly(
+  props: React.PropsWithChildren<{ fallback?: React.ReactNode }>
+) {
+  return <>{useHydrated() ? props.children : props.fallback}</>;
 }
 
-export function usePromiseQueryOpitons<T>(queryFn: () => Promise<T>) {
-  return {
-    queryKey: ["usePromise", String(queryFn)],
-    queryFn,
-    gcTime: Infinity,
-  } satisfies QueryOptions;
+let hydratedGlobal = false;
+
+function useHydrated() {
+  const [hydrated, setHydrated] = React.useState(hydratedGlobal);
+
+  React.useEffect(() => {
+    hydratedGlobal = true;
+    setHydrated(true);
+  }, []);
+
+  return hydrated;
 }
