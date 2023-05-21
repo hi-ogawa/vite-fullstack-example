@@ -15,7 +15,6 @@ test("basic", async ({ page }) => {
 
   await page.getByRole("link", { name: "/trpc" }).click();
   await page.waitForURL("/trpc");
-  await waitForHydration(page);
 
   await page.getByText("counter = 0").click();
   await page.getByRole("button", { name: "+1" }).click();

@@ -1,25 +1,16 @@
 import "virtual:uno.css";
 import { tinyassert } from "@hiogawa/utils";
 import React from "react";
-import { createRoot } from "react-dom/client";
+import { type Root, hydrateRoot } from "react-dom/client";
 import { PAGE_DOM_ID, PageWrapper } from "./common";
+import type { PageClientRender } from "./types";
 
-// TODO: when is it different from PageContextServer?
-// import { PageContextBuiltIn } from "vite-plugin-ssr/types";
-export type PageContextClient = {
-  Page: React.FC;
-  pageProps?: Record<string, unknown>;
-};
+let reactRoot: Root | undefined;
 
-type RenderClient = (pageContext: PageContextClient) => void;
-
-export const render: RenderClient = (ctx) => {
+export const render: PageClientRender = (ctx) => {
   const pageEl = document.getElementById(PAGE_DOM_ID);
   tinyassert(pageEl);
 
-  // TODO: client navigation
-
-  const root = createRoot(pageEl);
   const page = (
     <React.StrictMode>
       <PageWrapper>
@@ -27,5 +18,15 @@ export const render: RenderClient = (ctx) => {
       </PageWrapper>
     </React.StrictMode>
   );
-  root.render(page);
+
+  if (ctx.isHydration) {
+    tinyassert(!reactRoot);
+    reactRoot = hydrateRoot(pageEl, page);
+  } else {
+    tinyassert(reactRoot);
+    reactRoot.render(page);
+  }
 };
+
+// https://vite-plugin-ssr.com/clientRouting
+export const clientRouting = true;
