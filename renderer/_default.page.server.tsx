@@ -12,7 +12,7 @@ export const passToClient = [
 export const render: PageServerRender = (ctx) => {
   // TODO: streaming
   const page = (
-    <PageWrapper>
+    <PageWrapper pageContext={ctx}>
       <ctx.Page {...ctx.pageProps} />
     </PageWrapper>
   );
