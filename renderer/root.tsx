@@ -46,7 +46,7 @@ function PageLinkList() {
         <li key={href}>
           {/* TODO: style active link */}
           <a
-            className="antd-btn antd-btn-default p-0.5 px-2 font-mono text-sm"
+            className="antd-btn antd-btn-default p-0.5 px-1 font-mono text-sm"
             href={href}
           >
             {href}
