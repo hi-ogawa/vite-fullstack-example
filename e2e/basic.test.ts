@@ -1,4 +1,4 @@
-import { type Page, test } from "@playwright/test";
+import { type Page, expect, test } from "@playwright/test";
 import { execPromise } from "../src/utils/node-utils";
 
 test.beforeAll(async () => {
@@ -58,6 +58,22 @@ test.describe("session", () => {
     await page.getByRole("link", { name: "/session/me" }).click();
     await page.waitForURL("/session/login");
   });
+});
+
+test("active link", async ({ page }) => {
+  await page.goto("/");
+  await waitForHydration(page);
+
+  // not active
+  await expect(
+    page.getByRole("link", { name: "/server-counter" })
+  ).not.toHaveClass(/antd-menu-item-active/);
+
+  // active
+  await page.getByRole("link", { name: "/server-counter" }).click();
+  await expect(page.getByRole("link", { name: "/server-counter" })).toHaveClass(
+    /antd-menu-item-active/
+  );
 });
 
 //
