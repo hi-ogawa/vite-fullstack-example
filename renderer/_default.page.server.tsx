@@ -2,25 +2,11 @@ import THEME_SCRIPT from "@hiogawa/utils-experimental/dist/theme-script.global.j
 import { renderToString } from "react-dom/server";
 import { dangerouslySkipEscape, escapeInject } from "vite-plugin-ssr/server";
 import { PAGE_DOM_ID, PageWrapper } from "./common";
+import type { PageServerRender } from "./types";
 
-// PageContext api is customizable for own need
-// cf.
-// import type { PageContextBuiltIn } from "vite-plugin-ssr/types";
-
-type PageContextServer = {
-  Page: React.FC;
-  pageProps?: Record<string, unknown>;
-};
-
-type RenderServer = (ctx: PageContextServer) => {
-  documentHtml: unknown;
-  pageContext: {}; // TODO?
-};
-
-// TODO: pageProps
 export const passToClient = ["pageProps"];
 
-export const render: RenderServer = (ctx) => {
+export const render: PageServerRender = (ctx) => {
   // TODO: streaming
   const page = (
     <PageWrapper>
