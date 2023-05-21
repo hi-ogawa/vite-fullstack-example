@@ -1,8 +1,11 @@
 import React from "react";
 import { cls } from "../src/utils/misc";
 import { usePageContext } from "./common";
+import { useFlushMessageHandler } from "./flash";
 
 export function Root(props: React.PropsWithChildren) {
+  useFlushMessageHandler();
+
   return (
     <div>
       <header className="flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">

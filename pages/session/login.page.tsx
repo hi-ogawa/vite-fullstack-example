@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { FlashType } from "../../renderer/flash";
 import { trpcRQ } from "../../src/trpc/react-query";
 
 export function Page() {
@@ -9,7 +10,7 @@ export function Page() {
   const loginMutation = useMutation({
     ...trpcRQ.login.mutationOptions(),
     onSuccess: () => {
-      window.location.href = "/session/me";
+      window.location.href = "/session/me?__flash=" + FlashType.LoginSuccess;
     },
   });
 

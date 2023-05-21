@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { FlashType } from "../../renderer/flash";
 import { trpcRQ } from "../../src/trpc/react-query";
 import type { PageProps } from "./me.page.server";
 
@@ -8,7 +9,8 @@ export function Page(props: PageProps) {
     onSuccess: () => {
       // simple refresh on session invalidation
       // TODO: typed route system
-      window.location.href = "/session/login";
+      window.location.href =
+        "/session/login?__flash=" + FlashType.LogoutSuccess;
     },
   });
 
