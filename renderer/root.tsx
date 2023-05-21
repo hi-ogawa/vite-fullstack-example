@@ -4,10 +4,8 @@ export function Root(props: React.PropsWithChildren) {
   return (
     <div>
       <header className="flex items-center gap-3 p-2 px-3 shadow-md shadow-black/[0.05] dark:shadow-black/[0.7]">
-        <span className="text-lg">Example</span>
-        <div className="border-l self-stretch"></div>
-        <div className="flex gap-2">
-          Pages :
+        <div className="flex gap-3">
+          Pages
           <PageLinkList />
         </div>
         <span className="flex-1"></span>
@@ -47,7 +45,10 @@ function PageLinkList() {
       {LINKS.map((href) => (
         <li key={href}>
           {/* TODO: style active link */}
-          <a className="antd-btn antd-btn-default p-0.5 px-2" href={href}>
+          <a
+            className="antd-btn antd-btn-default p-0.5 px-1 font-mono text-sm"
+            href={href}
+          >
             {href}
           </a>
         </li>
@@ -56,5 +57,4 @@ function PageLinkList() {
   );
 }
 
-// TODO: remove "/other"
-const LINKS = ["/", "/other", "/trpc", "/session/login", "/session/me"];
+const LINKS = ["/", "/server-counter", "/session/login", "/session/me"];
