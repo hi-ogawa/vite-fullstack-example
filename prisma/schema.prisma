@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgres"
-  url      = "postgres://postgres:password@localhost:6432/development"
+  url      = env("APP_POSTGRES_URL")
 }
 
 model counter {
