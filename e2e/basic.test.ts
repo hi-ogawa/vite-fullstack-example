@@ -14,8 +14,8 @@ test("basic", async ({ page }) => {
   await page.getByRole("button", { name: "+1" }).click();
   await page.getByText("counter: 1").click();
 
-  await page.getByRole("link", { name: "/server-counter" }).click();
-  await page.waitForURL("/server-counter");
+  await page.getByRole("link", { name: "/redis" }).click();
+  await page.waitForURL("/redis");
 
   await page.getByText("counter = 0").click();
   await page.getByRole("button", { name: "+1" }).click();
@@ -70,13 +70,13 @@ test("active link", async ({ page }) => {
   await waitForHydration(page);
 
   // not active
-  await expect(
-    page.getByRole("link", { name: "/server-counter" })
-  ).not.toHaveClass(/antd-menu-item-active/);
+  await expect(page.getByRole("link", { name: "/redis" })).not.toHaveClass(
+    /antd-menu-item-active/
+  );
 
   // active
-  await page.getByRole("link", { name: "/server-counter" }).click();
-  await expect(page.getByRole("link", { name: "/server-counter" })).toHaveClass(
+  await page.getByRole("link", { name: "/redis" }).click();
+  await expect(page.getByRole("link", { name: "/redis" })).toHaveClass(
     /antd-menu-item-active/
   );
 });

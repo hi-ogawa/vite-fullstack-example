@@ -100,4 +100,4 @@ function PageLinkList() {
   );
 }
 
-const LINKS = ["/", "/db", "/server-counter", "/session/login", "/session/me"];
+const LINKS = ["/", "/db", "/redis", "/session/login", "/session/me"];
