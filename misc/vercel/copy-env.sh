@@ -11,18 +11,25 @@ shift
 for key in "${@}"; do
   value="${!key:-}"
   if [ -z "${NO_CONFIRM:-}" ]; then
-    echo ":: proceed to set '$key'? (y/n)"
+    echo "::"
+    echo ":: configuring '$key'"
+    echo "::"
+    echo ""
     echo "$key=$value"
+    echo ""
+    echo -n ":: do you proceed? (y/n) "
     read -n 1 -r
     echo
     case "$REPLY" in
       y) ;;
       *)
         echo "skipped ($key)"
+        echo ""
         continue
       ;;
     esac
   fi
   echo 'y' | vercel env rm "$key" "$target" || true
   echo -n "$value" | vercel env add "$key" "$target"
+  echo ""
 done
