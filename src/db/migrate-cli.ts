@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import process from "node:process";
 import { tinyassert } from "@hiogawa/utils";
+import { consola } from "consola";
 import {
   type Migration,
   type MigrationProvider,
@@ -11,7 +12,6 @@ import {
 import { z } from "zod";
 import { initializeConfig } from "../utils/config";
 import { db, finalizeDb, initializeDb } from "../utils/db-utils";
-import { consola } from "consola";
 
 // raw sql based migration cli with custom MigrationProvider
 // cf. https://github.com/kysely-org/kysely#migrations
@@ -19,12 +19,14 @@ import { consola } from "consola";
 const Z_COMMAND = z.enum(["status", "up", "down", "latest"]).default("status");
 
 async function mainCli() {
-  const command = Z_COMMAND.parse(process.argv[2]);
+  const args = process.argv.slice(2);
+  const command = Z_COMMAND.parse(args[0]);
 
+  const migrationsDir = `${__dirname}/migrations`;
   const migrator = new Migrator({
     db,
     provider: new RawSqlMigrationProvider({
-      directory: `${__dirname}/migrations`,
+      directory: migrationsDir,
     }),
   });
 

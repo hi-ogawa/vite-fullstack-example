@@ -3,7 +3,14 @@ datasource db {
   url      = "postgres://postgres:password@localhost:6432/development"
 }
 
-model counter {
-  id    Int @id @default(autoincrement())
-  value Int
+model kysely_migration {
+  @@ignore
+  name      String @id @db.VarChar(255)
+  timestamp String @db.VarChar(255)
+}
+
+model kysely_migration_lock {
+  @@ignore
+  id        String @id @db.VarChar(255)
+  is_locked Int    @default(0)
 }
