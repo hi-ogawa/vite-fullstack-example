@@ -15,6 +15,11 @@ const Z_SERVER_CONFIG = z.object({
   APP_REDIS_URL: z.string().default("redis://localhost:7379/0"),
   // manage prefix manually to (ab)use single upstash redis for staging and production
   APP_REDIS_PREFIX: z.string().default("dev"),
+
+  //
+  // postgres
+  //
+  APP_POSTGRES_URL: z.string().default("postgres://postgres:password@localhost:6432/development"),
 });
 
 type ServerConfig = z.infer<typeof Z_SERVER_CONFIG>;
