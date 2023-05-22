@@ -28,4 +28,7 @@ db/reset/dev:
 db/reset/test:
 	docker compose exec -T postgres psql postgres postgres -c 'DROP DATABASE IF EXISTS "test"' -c 'CREATE DATABASE "test"'
 
+db/console/dev:
+	docker compose exec postgres psql postgres -d development
+
 test/setup: redis/reset/test
