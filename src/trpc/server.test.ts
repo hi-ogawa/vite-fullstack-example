@@ -1,10 +1,11 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { truncateDb } from "../db/client";
 import { execPromise } from "../utils/node-utils";
 import { createTestTrpc } from "./test-helper";
 
-describe("trpc", () => {
+describe("redis-counter", () => {
   beforeAll(async () => {
-    await execPromise("make test/setup");
+    await execPromise("make redis/reset/test");
   });
 
   it("basic", async () => {
@@ -14,6 +15,21 @@ describe("trpc", () => {
       "1"
     );
     expect(await trpc.caller.getCounter()).toMatchInlineSnapshot("1");
+  });
+});
+
+describe("postgres-counter", () => {
+  beforeAll(async () => {
+    await truncateDb();
+  });
+
+  it("basic", async () => {
+    const trpc = await createTestTrpc();
+    expect(await trpc.caller.getCounterDb()).toMatchInlineSnapshot("0");
+    expect(
+      await trpc.caller.updateCounterDb({ delta: 1 })
+    ).toMatchInlineSnapshot("1");
+    expect(await trpc.caller.getCounterDb()).toMatchInlineSnapshot("1");
   });
 });
 

@@ -3,7 +3,7 @@ import { regExpRaw } from "../src/utils/misc";
 import { execPromise } from "../src/utils/node-utils";
 
 test.beforeAll(async () => {
-  await execPromise("make test/setup");
+  await execPromise("make redis/reset/test");
 });
 
 test("basic", async ({ page }) => {

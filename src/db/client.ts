@@ -1,6 +1,6 @@
-import { Kysely, PostgresDialect } from "kysely";
+import { Kysely, PostgresDialect, sql } from "kysely";
 import { Pool } from "pg";
-import { serverConfig } from "./config";
+import { serverConfig } from "../utils/config";
 
 export let db: Kysely<unknown>;
 
@@ -15,4 +15,8 @@ export async function initializeDb() {
 
 export async function finalizeDb() {
   await db.destroy();
+}
+
+export async function truncateDb() {
+  await sql`DELETE FROM "Counter"`.execute(db);
 }

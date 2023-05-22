@@ -1,7 +1,7 @@
 import type { RequestHandler } from "@hattip/compose";
 import { once } from "@hiogawa/utils";
+import { initializeDb } from "../db/client";
 import { initializeConfig } from "./config";
-import { initializeDb } from "./db-utils";
 import { initializeRedis } from "./redis-utils";
 
 // initialize globals

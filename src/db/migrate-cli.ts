@@ -11,7 +11,7 @@ import {
 } from "kysely";
 import { z } from "zod";
 import { initializeConfig } from "../utils/config";
-import { db, finalizeDb, initializeDb } from "../utils/db-utils";
+import { db, finalizeDb, initializeDb } from "./client";
 
 // raw sql based migration cli with custom MigrationProvider
 // cf. https://github.com/kysely-org/kysely#migrations

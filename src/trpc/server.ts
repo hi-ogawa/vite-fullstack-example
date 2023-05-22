@@ -1,6 +1,8 @@
 import process from "node:process";
 import { tinyassert } from "@hiogawa/utils";
+import { sql } from "kysely";
 import { z } from "zod";
+import { db } from "../db/client";
 import { serverConfig } from "../utils/config";
 import { redis } from "../utils/redis-utils";
 import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
@@ -32,6 +34,20 @@ export const trpcRoot = trpcRouterFactory({
       return udpateCounter(input.delta);
     }),
 
+  getCounterDb: trpcProcedureBuilder.query(() => {
+    return updateCounterDb(0);
+  }),
+
+  updateCounterDb: trpcProcedureBuilder
+    .input(
+      z.object({
+        delta: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return updateCounterDb(input.delta);
+    }),
+
   login: trpcProcedureBuilder
     .input(z.object({ name: z.string() }))
     .mutation(async ({ input, ctx }) => {
@@ -49,6 +65,25 @@ export const trpcRoot = trpcRouterFactory({
     return ctx.session.user ?? null;
   }),
 });
+
+//
+// postgres counter
+//
+
+const COUNTER_ID = 1;
+
+async function updateCounterDb(delta: number): Promise<number> {
+  await sql`INSERT INTO Counter (id, value) VALUES (${COUNTER_ID}, 0) ON CONFLICT DO NOTHING`.execute(
+    db
+  );
+  const result = await sql<{
+    value: number;
+  }>`UPDATE Counter SET value = value + ${delta} WHERE id = ${COUNTER_ID} RETURNING value`.execute(
+    db
+  );
+  tinyassert(result.rows.length === 1);
+  return result.rows[0].value;
+}
 
 //
 // redis counter

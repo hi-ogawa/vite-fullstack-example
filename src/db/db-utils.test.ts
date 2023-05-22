@@ -1,6 +1,6 @@
 import { sql } from "kysely";
 import { describe, expect, it } from "vitest";
-import { db } from "./db-utils";
+import { db } from "./client";
 
 describe("sql", () => {
   it("basic", async () => {
