@@ -103,7 +103,7 @@ async function readSqlFile(filepath: string): Promise<Migration["up"]> {
 
 async function main() {
   initializeConfig();
-  await initializeDb();
+  await initializeDb({ direct: true });
   try {
     await mainCli();
   } catch (e) {

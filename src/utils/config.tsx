@@ -20,6 +20,7 @@ const Z_SERVER_CONFIG = z.object({
   // postgres
   //
   APP_POSTGRES_URL: z.string().default("postgres://postgres:password@localhost:6432/development"),
+  APP_POSTGRES_DIRECT_URL: z.string().optional(),
 });
 
 type ServerConfig = z.infer<typeof Z_SERVER_CONFIG>;
