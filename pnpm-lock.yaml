@@ -64,6 +64,9 @@ devDependencies:
   cac:
     specifier: ^6.7.14
     version: 6.7.14
+  consola:
+    specifier: ^3.1.0
+    version: 3.1.0
   esbuild:
     specifier: ^0.17.19
     version: 0.17.19

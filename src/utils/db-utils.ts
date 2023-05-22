@@ -12,3 +12,7 @@ export async function initializeDb() {
     }),
   });
 }
+
+export async function finalizeDb() {
+  await db.destroy();
+}
