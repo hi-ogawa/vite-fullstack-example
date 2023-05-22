@@ -35,4 +35,7 @@ pnpm dev
 pnpm build
 pnpm release
 pnpm release-production
+
+# db migration
+pnpm migrate-production status # up, down, latest
 ```
