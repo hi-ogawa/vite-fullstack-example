@@ -15,9 +15,9 @@ docker/clean:
 redis/reset: redis/reset/dev redis/reset/test
 
 redis/reset/dev:
-	docker compose exec redis redis-cli -u redis://localhost:6379/0 FLUSHDB
+	docker compose exec redis redis-cli -u redis://localhost:7379/0 FLUSHDB
 
 redis/reset/test:
-	docker compose exec redis redis-cli -u redis://localhost:6379/1 FLUSHDB
+	docker compose exec redis redis-cli -u redis://localhost:7379/1 FLUSHDB
 
 test/setup: redis/reset/test
