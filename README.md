@@ -13,8 +13,8 @@
   - postgres
   - redis
 - database
-  - kysely (db client + migration)
-  - prisma (shema diff)
+  - [kysely](https://github.com/kysely-org/kysely) (db client + migration)
+  - [prisma](https://github.com/prisma/prisma) (shema diff)
 - testing
   - [vitest](https://github.com/vitest-dev/vitest) (unit)
   - [playwright](https://github.com/microsoft/playwright) (e2e)
