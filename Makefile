@@ -3,7 +3,7 @@
 
 docker/up:
 	docker compose up -d
-	docker compose run --rm dockerize -wait tcp://redis:6379 -wait tcp://db:5432
+	docker compose run --rm dockerize -wait tcp://redis:6379 -wait tcp://postgres:5432
 
 docker/down:
 	docker compose down
