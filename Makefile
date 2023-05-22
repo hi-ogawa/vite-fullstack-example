@@ -30,7 +30,5 @@ db/reset/test:
 	docker compose exec -T postgres psql postgres postgres -c 'DROP DATABASE IF EXISTS "test"' -c 'CREATE DATABASE "test"'
 	pnpm migrate-test latest
 
-db/console/dev:
-	docker compose exec postgres psql postgres -d development
-
-test/setup: redis/reset/test
+db/truncate/test:
+	docker compose exec -T postgres psql postgres -d test -c 'TRUNCATE counter'

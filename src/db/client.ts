@@ -1,5 +1,5 @@
 import process from "node:process";
-import { Kysely, PostgresDialect, sql } from "kysely";
+import { Kysely, PostgresDialect } from "kysely";
 import { Pool } from "pg";
 import { serverConfig } from "../utils/config";
 
@@ -18,8 +18,4 @@ export async function initializeDb() {
 
 export async function finalizeDb() {
   await db.destroy();
-}
-
-export async function truncateDb() {
-  await sql`DELETE FROM counter`.execute(db);
 }

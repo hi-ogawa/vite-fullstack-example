@@ -1,5 +1,4 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { truncateDb } from "../db/client";
 import { execPromise } from "../utils/node-utils";
 import { createTestTrpc } from "./test-helper";
 
@@ -20,7 +19,7 @@ describe("redis-counter", () => {
 
 describe("postgres-counter", () => {
   beforeAll(async () => {
-    await truncateDb();
+    await execPromise("make db/truncate/test");
   });
 
   it("basic", async () => {

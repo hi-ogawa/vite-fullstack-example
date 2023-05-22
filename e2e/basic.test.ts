@@ -4,6 +4,7 @@ import { execPromise } from "../src/utils/node-utils";
 
 test.beforeAll(async () => {
   await execPromise("make redis/reset/test");
+  await execPromise("make db/truncate/test");
 });
 
 test("basic", async ({ page }) => {
@@ -13,6 +14,17 @@ test("basic", async ({ page }) => {
   await page.getByText("counter: 0").click();
   await page.getByRole("button", { name: "+1" }).click();
   await page.getByText("counter: 1").click();
+
+  await page.getByRole("link", { name: "/db" }).click();
+  await page.waitForURL("/db");
+
+  await page.getByText("counter = 0").click();
+  await page.getByRole("button", { name: "+1" }).click();
+  await page.getByText("Successfully updated").click();
+  await page.getByText("counter = 1").click();
+  await page.getByRole("button", { name: "-1" }).click();
+  await page.getByText("Successfully updated").click();
+  await page.getByText("counter = 0").click();
 
   await page.getByRole("link", { name: "/redis" }).click();
   await page.waitForURL("/redis");
