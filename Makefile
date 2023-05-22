@@ -24,9 +24,11 @@ db/reset: db/reset/dev db/reset/test
 
 db/reset/dev:
 	docker compose exec -T postgres psql postgres postgres -c 'DROP DATABASE IF EXISTS "development"' -c 'CREATE DATABASE "development"'
+	pnpm migrate latest
 
 db/reset/test:
 	docker compose exec -T postgres psql postgres postgres -c 'DROP DATABASE IF EXISTS "test"' -c 'CREATE DATABASE "test"'
+	pnpm migrate-test latest
 
 db/console/dev:
 	docker compose exec postgres psql postgres -d development
