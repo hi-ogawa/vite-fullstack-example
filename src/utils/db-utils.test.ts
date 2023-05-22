@@ -4,12 +4,15 @@ import { db } from "./db-utils";
 
 describe("sql", () => {
   it("basic", async () => {
-    const result = await sql<[number]>`select 1 + 1`.execute(db);
+    const result = await sql<
+      [{ answer: number }]
+    >`select 1 + 1 as answer`.execute(db);
+
     expect(result).toMatchInlineSnapshot(`
       {
         "rows": [
           {
-            "?column?": 2,
+            "answer": 2,
           },
         ],
       }
