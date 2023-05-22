@@ -1,8 +1,8 @@
 -- CreateTable
-CREATE TABLE "Counter" (
+CREATE TABLE "counter" (
     "id" SERIAL NOT NULL,
     "value" INTEGER NOT NULL,
 
-    CONSTRAINT "Counter_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "counter_pkey" PRIMARY KEY ("id")
 );
 

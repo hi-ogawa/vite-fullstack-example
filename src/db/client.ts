@@ -18,5 +18,5 @@ export async function finalizeDb() {
 }
 
 export async function truncateDb() {
-  await sql`DELETE FROM "Counter"`.execute(db);
+  await sql`DELETE FROM counter`.execute(db);
 }

@@ -17,7 +17,7 @@ model kysely_migration_lock {
   @@ignore
 }
 
-model Counter {
+model counter {
   id    Int @id @default(autoincrement())
   value Int
 }
