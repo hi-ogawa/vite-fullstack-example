@@ -37,6 +37,6 @@ jobs:
           key: cache-playwright-1.34.0
       - if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install chromium --with-deps
-      - run: make docker/up
+      - run: make docker/up db/reset
       - run: pnpm test
       - run: pnpm test-e2e

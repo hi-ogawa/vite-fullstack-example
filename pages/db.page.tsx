@@ -3,12 +3,12 @@ import { toast } from "react-hot-toast";
 import { trpcRQ } from "../src/trpc/react-query";
 
 export function Page() {
-  const counterQueryOptions = trpcRQ.getCounter.queryOptions();
+  const counterQueryOptions = trpcRQ.getCounterDb.queryOptions();
   const counterQuery = useQuery(counterQueryOptions);
 
   const queryClient = useQueryClient();
   const counterMutation = useMutation({
-    ...trpcRQ.updateCounter.mutationOptions(),
+    ...trpcRQ.updateCounterDb.mutationOptions(),
     onSuccess: (data) => {
       toast.success("Successfully updated", { id: "counter-mutation-success" });
       queryClient.setQueryData(counterQueryOptions.queryKey, data);
@@ -19,7 +19,7 @@ export function Page() {
 
   return (
     <div className="flex flex-col gap-2 w-lg">
-      <h2 className="text-lg">server counter example</h2>
+      <h2 className="text-lg">db counter example</h2>
       <div className="flex items-center gap-3">
         <span>counter = {counterQuery.data ?? "..."}</span>
         {loading && <div className="antd-spin w-4 h-4"></div>}

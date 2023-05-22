@@ -1,0 +1,23 @@
+datasource db {
+  provider = "postgres"
+  url      = "postgres://postgres:password@localhost:6432/development"
+}
+
+model kysely_migration {
+  name      String @id @db.VarChar(255)
+  timestamp String @db.VarChar(255)
+
+  @@ignore
+}
+
+model kysely_migration_lock {
+  id        String @id @db.VarChar(255)
+  is_locked Int    @default(0)
+
+  @@ignore
+}
+
+model counter {
+  id    Int @id @default(autoincrement())
+  value Int
+}

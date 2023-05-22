@@ -10,8 +10,8 @@
     "noEmit": true,
     "moduleResolution": "Node",
     "module": "ESNext",
-    "target": "ES2021",
-    "lib": ["ES2021", "DOM"],
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM", "ESNext.Intl"],
     "types": ["vite/client"],
     "jsx": "react-jsx"
   }
