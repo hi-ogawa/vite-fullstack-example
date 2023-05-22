@@ -1,0 +1,9 @@
+datasource db {
+  provider = "postgres"
+  url      = "postgres://postgres:password@localhost:6432/development"
+}
+
+model counter {
+  id    Int @id @default(autoincrement())
+  value Int
+}
