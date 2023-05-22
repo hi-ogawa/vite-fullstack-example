@@ -36,6 +36,6 @@ pnpm build
 pnpm release
 pnpm release-production
 
-# db migration
+# db migration (see also prisma/README.md)
 pnpm migrate-production status # up, down, latest
 ```
