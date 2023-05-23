@@ -8,6 +8,13 @@ import type { PageClientRender } from "./types";
 let reactRoot: ReturnType<typeof hydrateRoot> | undefined;
 
 export const render: PageClientRender = (ctx) => {
+  // detect `onBeforeRender` server redirection on client
+  if (ctx.clientRedirect) {
+    // do hard navigation for simplicity since such use cases are minor
+    window.location.href = ctx.clientRedirect;
+    return;
+  }
+
   const pageEl = document.getElementById(PAGE_DOM_ID);
   tinyassert(pageEl);
 
@@ -18,10 +25,12 @@ export const render: PageClientRender = (ctx) => {
   );
 
   if (ctx.isHydration) {
+    // first page render
     tinyassert(!reactRoot);
     reactRoot = hydrateRoot(pageEl, page);
     pageEl.dataset["testid"] = "hydrated"; // for e2e
   } else {
+    // client navigation
     tinyassert(reactRoot);
     reactRoot.render(page);
   }
