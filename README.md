@@ -31,6 +31,13 @@ make docker/up db/reset
 pnpm i
 pnpm dev
 
+# test (unit)
+pnpm test
+
+# test (e2e)
+npx playwright install chromium
+pnpm test-e2e
+
 # release (see also misc/vercel/README.md)
 pnpm build
 pnpm release
