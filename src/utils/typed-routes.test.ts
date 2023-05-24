@@ -11,7 +11,7 @@ describe(createRouteFormatterProxy.name, () => {
       $R["/dummy/@id"]({ p: { id: 123 } }),
     ]).toMatchInlineSnapshot(`
       [
-        "/session/login?flash=0",
+        "/session/login?__msg=0",
         "/session/me",
         "/redis",
         "/dummy/123",
