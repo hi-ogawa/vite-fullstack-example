@@ -7,7 +7,7 @@ import { createGetterProxy } from "./misc";
 
 export const ROUTES = {
   "/": {},
-  "/server-counter": {},
+  "/redis": {},
   "/session/login": {
     q: Z_FLASH_QUERY,
   },

@@ -7,13 +7,13 @@ describe(createRouteFormatterProxy.name, () => {
     expect([
       $R["/session/login"]({ q: { flash: FlashType.RequireLogin } }),
       $R["/session/me"](),
-      $R["/server-counter"](),
+      $R["/redis"](),
       $R["/dummy/@id"]({ p: { id: 123 } }),
     ]).toMatchInlineSnapshot(`
       [
         "/session/login?flash=0",
         "/session/me",
-        "/server-counter",
+        "/redis",
         "/dummy/123",
       ]
     `);

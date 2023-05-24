@@ -2,15 +2,20 @@ import type React from "react";
 import type { escapeInject } from "vite-plugin-ssr/server";
 import type { PageContextBuiltInClientWithClientRouting } from "vite-plugin-ssr/types";
 import type { TrpcAppContext } from "../src/trpc/context";
+import type { RedirectPageContext } from "./server-utils";
 
 //
 // page context
 //
 
+// prettier-ignore
 export type PageContext =
-  PageContextBuiltInClientWithClientRouting<React.FC> & {
+  PageContextBuiltInClientWithClientRouting<React.FC> &
+  PageContextInit &
+  Partial<RedirectPageContext> &
+  {
     pageProps?: Record<string, unknown>;
-  } & PageContextInit;
+  };
 
 export type PageContextInit = {
   urlOriginal: string;

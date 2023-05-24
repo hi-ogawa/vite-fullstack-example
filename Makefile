@@ -3,7 +3,7 @@
 
 docker/up:
 	docker compose up -d
-	docker compose run --rm dockerize -wait tcp://redis:6379
+	docker compose run --rm dockerize -wait tcp://redis:6379 -wait tcp://postgres:5432
 
 docker/down:
 	docker compose down
@@ -15,9 +15,20 @@ docker/clean:
 redis/reset: redis/reset/dev redis/reset/test
 
 redis/reset/dev:
-	docker compose exec redis redis-cli -u redis://localhost:6379/0 FLUSHDB
+	docker compose exec redis redis-cli -n 0 FLUSHDB
 
 redis/reset/test:
-	docker compose exec redis redis-cli -u redis://localhost:6379/1 FLUSHDB
+	docker compose exec redis redis-cli -n 1 FLUSHDB
 
-test/setup: redis/reset/test
+db/reset: db/reset/dev db/reset/test
+
+db/reset/dev:
+	docker compose exec -T postgres psql postgres postgres -c 'DROP DATABASE IF EXISTS "development"' -c 'CREATE DATABASE "development"'
+	pnpm migrate latest
+
+db/reset/test:
+	docker compose exec -T postgres psql postgres postgres -c 'DROP DATABASE IF EXISTS "test"' -c 'CREATE DATABASE "test"'
+	pnpm migrate-test latest
+
+db/truncate/test:
+	docker compose exec -T postgres psql postgres -d test -c 'TRUNCATE counter'

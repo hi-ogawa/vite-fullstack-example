@@ -23,10 +23,14 @@ const hattipVitePluginSsr: RequestHandler = async (ctx) => {
     }),
   });
 
-  // intercept directly thrown response
-  const thrown = Z_THROWN_REPONSE_PAGE_CONTEXT.safeParse(pageContext);
-  if (thrown.success) {
-    return thrown.data.__response;
+  // For ssr request, use "thrown response" directly.
+  // For data request, "throw response" is handled via builtin "is404" system and client can handle it e.g. in default.page.client.tsx.
+  // So far, the use case of this logic is to throw redirection in server onBeforeRender.
+  if (!ctx.url.pathname.endsWith(".pageContext.json")) {
+    const thrown = Z_THROWN_REPONSE_PAGE_CONTEXT.safeParse(pageContext);
+    if (thrown.success) {
+      return thrown.data.__response;
+    }
   }
 
   const res = pageContext.httpResponse;
