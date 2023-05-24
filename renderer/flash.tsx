@@ -1,4 +1,5 @@
 import { toast } from "react-hot-toast";
+import { navigate } from "vite-plugin-ssr/client/router";
 import { z } from "zod";
 import { useEffectNoStrict } from "../src/utils/react-utils";
 import { usePageContext } from "./common";
@@ -13,7 +14,7 @@ export enum FlashType {
 }
 
 export const Z_FLASH_QUERY = z.object({
-  flash: z.nativeEnum(FlashType).optional(),
+  __msg: z.nativeEnum(FlashType).optional(),
 });
 
 export function useFlashMessageHandler() {
@@ -21,8 +22,8 @@ export function useFlashMessageHandler() {
 
   useEffectNoStrict(() => {
     const parsed = Z_FLASH_QUERY.safeParse(ctx.urlParsed.search);
-    if (parsed.success && parsed.data.flash) {
-      switch (parsed.data.flash) {
+    if (parsed.success && parsed.data.__msg) {
+      switch (parsed.data.__msg) {
         case FlashType.AlreadyLoggedIn: {
           toast.error("Already logged in");
           break;
@@ -40,11 +41,12 @@ export function useFlashMessageHandler() {
           break;
         }
       }
-      // mutate history in a way that vite-plugin-ssr won't notice (TODO: is it allowed?)
+
+      // remove url query (vite-plugin-ssr might do redundant refetch but alright)
       const url = new URL(ctx.urlOriginal, DUMMY_BASE);
-      url.searchParams.delete(Z_FLASH_QUERY.keyof().enum.flash);
+      url.searchParams.delete(Z_FLASH_QUERY.keyof().enum.__msg);
       const urlString = url.toString().slice(DUMMY_BASE.length);
-      window.history.replaceState(window.history.state, "", urlString);
+      navigate(urlString, { overwriteLastHistoryEntry: true });
     }
   }, []);
 }
