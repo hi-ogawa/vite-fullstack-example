@@ -7,7 +7,7 @@ export const onBeforeRender: OnBeforeRenderFunction = (ctx) => {
   const { user } = ctx.trpcCtx.session;
   if (user) {
     throw redirect(
-      $R["/session/me"]({ q: { flash: FlashType.AlreadyLoggedIn } })
+      $R["/session/me"]({ q: { __msg: FlashType.AlreadyLoggedIn } })
     );
   }
   return {

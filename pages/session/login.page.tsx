@@ -12,7 +12,7 @@ export function Page() {
     ...trpcRQ.login.mutationOptions(),
     onSuccess: () => {
       window.location.href = $R["/session/me"]({
-        q: { flash: FlashType.LoginSuccess },
+        q: { __msg: FlashType.LoginSuccess },
       });
     },
   });

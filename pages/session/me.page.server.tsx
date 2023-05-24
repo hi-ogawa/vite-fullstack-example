@@ -11,7 +11,7 @@ export const onBeforeRender: OnBeforeRenderFunction<PageProps> = (ctx) => {
   const { user } = ctx.trpcCtx.session;
   if (!user) {
     throw redirect(
-      $R["/session/login"]({ q: { flash: FlashType.RequireLogin } })
+      $R["/session/login"]({ q: { __msg: FlashType.RequireLogin } })
     );
   }
 

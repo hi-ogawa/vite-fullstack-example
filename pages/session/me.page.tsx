@@ -10,7 +10,7 @@ export function Page(props: PageProps) {
     onSuccess: () => {
       // simple refresh on session invalidation
       window.location.href = $R["/session/login"]({
-        q: { flash: FlashType.LogoutSuccess },
+        q: { __msg: FlashType.LogoutSuccess },
       });
     },
   });
