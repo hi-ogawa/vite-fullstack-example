@@ -2,8 +2,8 @@
 set -eu -o pipefail
 
 # usage:
-#   bash misc/dot-env.sh .env.staging bash misc/vercel/copy-env.sh preview APP_REDIS_URL APP_REDIS_PREFIX
-#   bash misc/dot-env.sh .env.production bash misc/vercel/copy-env.sh production APP_REDIS_URL APP_REDIS_PREFIX
+#   bash misc/dotenv.sh .env.staging bash misc/vercel/copy-env.sh preview APP_REDIS_URL APP_REDIS_PREFIX
+#   bash misc/dotenv.sh .env.production bash misc/vercel/copy-env.sh production APP_REDIS_URL APP_REDIS_PREFIX
 
 target="$1"
 shift
