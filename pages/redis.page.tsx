@@ -15,7 +15,7 @@ export function Page() {
     },
   });
 
-  const loading = counterQuery.isFetching || counterMutation.isLoading;
+  const loading = counterQuery.isFetching || counterMutation.isPending;
 
   return (
     <div className="flex flex-col gap-2 w-lg">
