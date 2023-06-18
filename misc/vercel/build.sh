@@ -12,7 +12,6 @@ set -eu -o pipefail
 #       index.func/
 #         .vc-config.json
 #         index.js
-#         server/  (= dist/server)
 
 # vite
 npx vite build
@@ -31,6 +30,5 @@ cp misc/vercel/config.json .vercel/output/config.json
 cp -r dist/client .vercel/output/static
 
 # serverless
-cp -r dist/server .vercel/output/functions/index.func/server
 cp dist/entry-vercel.js .vercel/output/functions/index.func/index.js
 cp misc/vercel/.vc-config.json .vercel/output/functions/index.func/.vc-config.json
