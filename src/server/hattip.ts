@@ -1,26 +1,26 @@
 import { type RequestHandler, compose } from "@hattip/compose";
-import { typedBoolean } from "@hiogawa/utils";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
 import { Z_THROWN_REPONSE_PAGE_CONTEXT } from "../../renderer/server-utils";
 import type { PageContextInit } from "../../renderer/types";
 import { TRPC_ENDPOINT } from "../trpc/common";
-import { createTrpcAppContext } from "../trpc/context";
 import { trpcRoot } from "../trpc/server";
 import { hattipBootstrapHandler } from "../utils/bootstrap";
+import {
+  initializeReqeustContext,
+  requestContextProvider,
+} from "./request-context";
 
 //
 // vite plugin ssr
 //
 
 const hattipVitePluginSsr: RequestHandler = async (ctx) => {
+  // read-only session for "xxx.page.server" hooks
+  await initializeReqeustContext();
   const pageContext = await renderPage<{}, PageContextInit>({
     urlOriginal: ctx.request.url,
-    trpcCtx: await createTrpcAppContext({
-      req: ctx.request,
-      resHeaders: new Headers(),
-    }),
   });
 
   // For ssr request, use "thrown response" directly.
@@ -58,7 +58,10 @@ const hattipTrpc: RequestHandler = (ctx) => {
     endpoint: TRPC_ENDPOINT,
     req: ctx.request,
     router: trpcRoot,
-    createContext: createTrpcAppContext,
+    createContext: async (options) => {
+      await initializeReqeustContext({ responseHeaders: options.resHeaders });
+      return {};
+    },
     onError: (e) => {
       // quick error logging
       console.error(e);
@@ -95,12 +98,11 @@ function createHattipLogger() {
 }
 
 export function createHattipApp(options?: { noLogger?: boolean }) {
-  const handlers = [
-    hattipBootstrapHandler,
+  return compose([
     !options?.noLogger && createHattipLogger(),
+    hattipBootstrapHandler,
+    requestContextProvider(),
     hattipTrpc,
     hattipVitePluginSsr,
-  ].filter(typedBoolean);
-
-  return compose(handlers);
+  ]);
 }

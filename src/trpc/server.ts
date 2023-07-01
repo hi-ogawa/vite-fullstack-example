@@ -3,6 +3,7 @@ import { tinyassert } from "@hiogawa/utils";
 import { sql } from "kysely";
 import { z } from "zod";
 import { db } from "../db/client";
+import { getRequestContext } from "../server/request-context";
 import { serverConfig } from "../utils/config";
 import { redis } from "../utils/redis-utils";
 import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
@@ -10,13 +11,14 @@ import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
 export const trpcRoot = trpcRouterFactory({
   _healthz: trpcProcedureBuilder.query(() => ({ ok: true })),
 
-  _debug: trpcProcedureBuilder.query(({ ctx }) => {
+  _debug: trpcProcedureBuilder.query(() => {
+    const ctx = getRequestContext();
     return {
       versions: process.versions,
       vercelEnv: Object.fromEntries(
         Object.entries(process.env).filter(([k]) => k.startsWith("VERCEL_"))
       ),
-      requestHeaders: headersEntries(ctx.req.headers),
+      requestHeaders: headersEntries(ctx.request.headers),
     };
   }),
 
@@ -50,18 +52,21 @@ export const trpcRoot = trpcRouterFactory({
 
   login: trpcProcedureBuilder
     .input(z.object({ name: z.string() }))
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
+      const ctx = getRequestContext();
       tinyassert(!ctx.session.user);
       ctx.session.user = { name: input.name };
       await ctx.session.save();
     }),
 
-  logout: trpcProcedureBuilder.mutation(async ({ ctx }) => {
+  logout: trpcProcedureBuilder.mutation(async () => {
+    const ctx = getRequestContext();
     tinyassert(ctx.session.user);
     ctx.session.destroy();
   }),
 
-  me: trpcProcedureBuilder.query(({ ctx }) => {
+  me: trpcProcedureBuilder.query(() => {
+    const ctx = getRequestContext();
     return ctx.session.user ?? null;
   }),
 });

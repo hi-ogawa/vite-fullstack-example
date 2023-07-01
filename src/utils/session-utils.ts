@@ -21,6 +21,8 @@ export type SessionData = z.infer<typeof Z_SESSION_DATA>;
 // request/response wrapper based on iron-session
 //
 
+export type Session = IronSession & SessionData;
+
 export async function initializeSession(
   reqHeaders: Headers,
   resHeaders: Headers
