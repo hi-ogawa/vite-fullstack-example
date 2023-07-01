@@ -27,8 +27,8 @@
 
 ```sh
 # development
-make docker/up db/reset
 pnpm i
+make docker/up db/reset
 pnpm dev
 
 # test (unit)
