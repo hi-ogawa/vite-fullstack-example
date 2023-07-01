@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { requestContextTester } from "../server/request-context";
 import { execPromise } from "../utils/node-utils";
 import { createTestTrpc } from "./test-helper";
 
@@ -34,18 +35,24 @@ describe("postgres-counter", () => {
 
 describe("me", () => {
   it("no session", async () => {
-    const trpc = await createTestTrpc();
-    expect(await trpc.caller.me()).toMatchInlineSnapshot("null");
+    return requestContextTester()(async () => {
+      const trpc = await createTestTrpc();
+      expect(await trpc.caller.me()).toMatchInlineSnapshot("null");
+    });
   });
 
   it("with session", async () => {
-    const trpc = await createTestTrpc({
-      sessionData: { user: { name: "tester" } },
-    });
-    expect(await trpc.caller.me()).toMatchInlineSnapshot(`
-      {
-        "name": "tester",
+    return requestContextTester({ sessionData: { user: { name: "tester" } } })(
+      async () => {
+        const trpc = await createTestTrpc({
+          sessionData: { user: { name: "tester" } },
+        });
+        expect(await trpc.caller.me()).toMatchInlineSnapshot(`
+        {
+          "name": "tester",
+        }
+      `);
       }
-    `);
+    );
   });
 });
