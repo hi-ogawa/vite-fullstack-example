@@ -9,7 +9,7 @@ import {
 
 // TODO
 // during dev, vite-plugin-ssr's `renderPage` loads modules on its own system,
-// so everything (including this AsyncLocalStorage) is deprecated from our esbuild dev bundle.
+// so everything (including this AsyncLocalStorage) is instantiated independently from our esbuild dev bundle.
 // for now, we workaround this by persisting it to global.
 
 // pick minimal things so that it's easier to write `testRequestContext`
