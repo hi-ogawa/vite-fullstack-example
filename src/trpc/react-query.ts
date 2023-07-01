@@ -1,12 +1,12 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { createGetterProxy } from "../utils/misc";
 import { trpcClient } from "./client";
-import type { trpcRoot } from "./server";
+import type { trpcRouter } from "./server";
 
 // copied from https://github.com/hi-ogawa/ytsub-v3/blob/af2eff04d17f346b9bf417dd0fb42849ef472147/app/trpc/client.ts#L10-L17
 
-type Inputs = inferRouterInputs<typeof trpcRoot>;
-type Outputs = inferRouterOutputs<typeof trpcRoot>;
+type Inputs = inferRouterInputs<typeof trpcRouter>;
+type Outputs = inferRouterOutputs<typeof trpcRouter>;
 
 type ReactQueryIntegration = {
   [K in keyof Inputs]: {

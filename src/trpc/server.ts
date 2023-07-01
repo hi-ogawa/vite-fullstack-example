@@ -1,17 +1,19 @@
 import process from "node:process";
 import { tinyassert } from "@hiogawa/utils";
+import { initTRPC } from "@trpc/server";
 import { sql } from "kysely";
 import { z } from "zod";
 import { db } from "../db/client";
 import { getRequestContext } from "../server/request-context";
 import { serverConfig } from "../utils/config";
 import { redis } from "../utils/redis-utils";
-import { trpcProcedureBuilder, trpcRouterFactory } from "./factory";
 
-export const trpcRoot = trpcRouterFactory({
-  _healthz: trpcProcedureBuilder.query(() => ({ ok: true })),
+const $t = initTRPC.create();
 
-  _debug: trpcProcedureBuilder.query(() => {
+export const trpcRouter = $t.router({
+  _healthz: $t.procedure.query(() => ({ ok: true })),
+
+  _debug: $t.procedure.query(() => {
     const ctx = getRequestContext();
     return {
       versions: process.versions,
@@ -22,11 +24,11 @@ export const trpcRoot = trpcRouterFactory({
     };
   }),
 
-  getCounter: trpcProcedureBuilder.query(() => {
+  getCounter: $t.procedure.query(() => {
     return udpateCounter(0);
   }),
 
-  updateCounter: trpcProcedureBuilder
+  updateCounter: $t.procedure
     .input(
       z.object({
         delta: z.number(),
@@ -36,11 +38,11 @@ export const trpcRoot = trpcRouterFactory({
       return udpateCounter(input.delta);
     }),
 
-  getCounterDb: trpcProcedureBuilder.query(() => {
+  getCounterDb: $t.procedure.query(() => {
     return updateCounterDb(0);
   }),
 
-  updateCounterDb: trpcProcedureBuilder
+  updateCounterDb: $t.procedure
     .input(
       z.object({
         delta: z.number(),
@@ -50,7 +52,7 @@ export const trpcRoot = trpcRouterFactory({
       return updateCounterDb(input.delta);
     }),
 
-  login: trpcProcedureBuilder
+  login: $t.procedure
     .input(z.object({ name: z.string() }))
     .mutation(async ({ input }) => {
       const ctx = getRequestContext();
@@ -59,17 +61,19 @@ export const trpcRoot = trpcRouterFactory({
       await ctx.session.save();
     }),
 
-  logout: trpcProcedureBuilder.mutation(async () => {
+  logout: $t.procedure.mutation(async () => {
     const ctx = getRequestContext();
     tinyassert(ctx.session.user);
     ctx.session.destroy();
   }),
 
-  me: trpcProcedureBuilder.query(() => {
+  me: $t.procedure.query(() => {
     const ctx = getRequestContext();
     return ctx.session.user ?? null;
   }),
 });
+
+export const trpcCaller = trpcRouter.createCaller({});
 
 //
 // postgres counter

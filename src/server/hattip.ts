@@ -1,11 +1,9 @@
 import { type RequestHandler, compose } from "@hattip/compose";
-import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { logger } from "hono/logger";
 import { renderPage } from "vite-plugin-ssr/server";
 import { Z_THROWN_REPONSE_PAGE_CONTEXT } from "../../renderer/server-utils";
 import type { PageContextInit } from "../../renderer/types";
-import { TRPC_ENDPOINT } from "../trpc/common";
-import { trpcRoot } from "../trpc/server";
+import { trpcHandler } from "../trpc/hattip";
 import { hattipBootstrapHandler } from "../utils/bootstrap";
 import {
   initializeReqeustContext,
@@ -47,29 +45,6 @@ const hattipVitePluginSsr: RequestHandler = async (ctx) => {
 };
 
 //
-// trpc
-//
-
-const hattipTrpc: RequestHandler = (ctx) => {
-  if (!ctx.url.pathname.startsWith(TRPC_ENDPOINT)) {
-    return ctx.next();
-  }
-  return fetchRequestHandler({
-    endpoint: TRPC_ENDPOINT,
-    req: ctx.request,
-    router: trpcRoot,
-    createContext: async (options) => {
-      await initializeReqeustContext({ responseHeaders: options.resHeaders });
-      return {};
-    },
-    onError: (e) => {
-      // quick error logging
-      console.error(e);
-    },
-  });
-};
-
-//
 // logger
 //
 
@@ -102,7 +77,7 @@ export function createHattipApp(options?: { noLogger?: boolean }) {
     !options?.noLogger && createHattipLogger(),
     hattipBootstrapHandler,
     requestContextProvider(),
-    hattipTrpc,
+    trpcHandler(),
     hattipVitePluginSsr,
   ]);
 }
