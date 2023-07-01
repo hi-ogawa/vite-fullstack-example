@@ -7,7 +7,6 @@ import type { PageContext, PageServerRender } from "./types";
 
 export const passToClient = [
   "pageProps",
-  "trpcCtx",
   "clientRedirect",
 ] satisfies (keyof PageContext)[];
 

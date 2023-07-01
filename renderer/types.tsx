@@ -1,7 +1,6 @@
 import type React from "react";
 import type { escapeInject } from "vite-plugin-ssr/server";
 import type { PageContextBuiltInClientWithClientRouting } from "vite-plugin-ssr/types";
-import type { TrpcAppContext } from "../src/trpc/context";
 import type { RedirectPageContext } from "./server-utils";
 
 //
@@ -19,7 +18,6 @@ export type PageContext =
 
 export type PageContextInit = {
   urlOriginal: string;
-  trpcCtx: TrpcAppContext; // reuse session logic from trpc. client will only sees serialized one.
 };
 
 export type PageClientRender = (ctx: PageContext) => void;

@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { FlashType } from "../../renderer/flash";
-import { trpcRQ } from "../../src/trpc/react-query";
+import { trpcClientQuery } from "../../src/trpc/client";
 import { $R } from "../../src/utils/typed-routes";
 import type { PageProps } from "./me.page.server";
 
 export function Page(props: PageProps) {
   const logoutMutation = useMutation({
-    ...trpcRQ.logout.mutationOptions(),
+    ...trpcClientQuery.logout.mutationOptions(),
     onSuccess: () => {
       // simple refresh on session invalidation
       window.location.href = $R["/session/login"]({

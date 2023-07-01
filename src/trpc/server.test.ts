@@ -1,6 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { requestContextTester } from "../server/request-context";
 import { execPromise } from "../utils/node-utils";
-import { createTestTrpc } from "./test-helper";
+import { trpcCaller } from "./server";
 
 describe("redis-counter", () => {
   beforeAll(async () => {
@@ -8,12 +9,11 @@ describe("redis-counter", () => {
   });
 
   it("basic", async () => {
-    const trpc = await createTestTrpc();
-    expect(await trpc.caller.getCounter()).toMatchInlineSnapshot("0");
-    expect(await trpc.caller.updateCounter({ delta: 1 })).toMatchInlineSnapshot(
+    expect(await trpcCaller.getCounter()).toMatchInlineSnapshot("0");
+    expect(await trpcCaller.updateCounter({ delta: 1 })).toMatchInlineSnapshot(
       "1"
     );
-    expect(await trpc.caller.getCounter()).toMatchInlineSnapshot("1");
+    expect(await trpcCaller.getCounter()).toMatchInlineSnapshot("1");
   });
 });
 
@@ -23,29 +23,30 @@ describe("postgres-counter", () => {
   });
 
   it("basic", async () => {
-    const trpc = await createTestTrpc();
-    expect(await trpc.caller.getCounterDb()).toMatchInlineSnapshot("0");
+    expect(await trpcCaller.getCounterDb()).toMatchInlineSnapshot("0");
     expect(
-      await trpc.caller.updateCounterDb({ delta: 1 })
+      await trpcCaller.updateCounterDb({ delta: 1 })
     ).toMatchInlineSnapshot("1");
-    expect(await trpc.caller.getCounterDb()).toMatchInlineSnapshot("1");
+    expect(await trpcCaller.getCounterDb()).toMatchInlineSnapshot("1");
   });
 });
 
 describe("me", () => {
   it("no session", async () => {
-    const trpc = await createTestTrpc();
-    expect(await trpc.caller.me()).toMatchInlineSnapshot("null");
+    return requestContextTester()(async () => {
+      expect(await trpcCaller.me()).toMatchInlineSnapshot("null");
+    });
   });
 
   it("with session", async () => {
-    const trpc = await createTestTrpc({
-      sessionData: { user: { name: "tester" } },
-    });
-    expect(await trpc.caller.me()).toMatchInlineSnapshot(`
-      {
-        "name": "tester",
+    return requestContextTester({ sessionData: { user: { name: "tester" } } })(
+      async () => {
+        expect(await trpcCaller.me()).toMatchInlineSnapshot(`
+        {
+          "name": "tester",
+        }
+      `);
       }
-    `);
+    );
   });
 });

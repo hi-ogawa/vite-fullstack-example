@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { FlashType } from "../../renderer/flash";
-import { trpcRQ } from "../../src/trpc/react-query";
+import { trpcClientQuery } from "../../src/trpc/client";
 import { $R } from "../../src/utils/typed-routes";
 
 export function Page() {
@@ -9,7 +9,7 @@ export function Page() {
   const formIsValid = form.formState.isValid;
 
   const loginMutation = useMutation({
-    ...trpcRQ.login.mutationOptions(),
+    ...trpcClientQuery.login.mutationOptions(),
     onSuccess: () => {
       window.location.href = $R["/session/me"]({
         q: { __msg: FlashType.LoginSuccess },
